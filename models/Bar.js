@@ -3,8 +3,9 @@ var mongoose = require('mongoose');
 var barSchema = new mongoose.Schema({
     name: String,
     location: {
-        lat: Number,
-        long: Number
+        type: [Number],
+        index: '2dsphere',
+        required: true
     }
 });
 

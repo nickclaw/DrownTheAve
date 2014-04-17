@@ -6,11 +6,10 @@ var express = require('express'),        // server
     sass = require('node-sass'),         // for compiling sass
     jade = require('jade'),              // for compiling jade
     path = require('path'),              // for handling url paths
-    expressMongoose = require('express-mongoose');         // adds cool functions to express
+    em = require('express-mongoose');    // adds cool functions to express
 
 
 /********* EXPRESS *********/
-
 // initialize app
 var app = express();
 app.set('port', process.env.PORT || 8080);
@@ -44,5 +43,5 @@ mongoose.connection
 
 // start server
 var server = app.listen(app.get('port'), function() {
-    console.log('Server listening on ' + server.address().port);
+    console.log('√ server listening on ' + server.address().port + '.');
 });
