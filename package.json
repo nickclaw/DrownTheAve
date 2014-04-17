@@ -1,0 +1,27 @@
+{
+  "name": "DrownTheAve",
+  "version": "0.0.0",
+  "description": "The beer database, for students by students.",
+  "bugs": {
+    "url": "http://github.com/nickclaw/DrownTheAve/issues"
+  },
+  "author": {
+    "name": "Nicholas Clawson",
+    "email": "nickclaw@gmail.com",
+    "url": "nickclaw.com"
+  },
+  "contributors": [
+    {
+      "name": "Thomas Phan",
+      "email": "",
+      "url": ""
+    }
+  ],
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "~4.0.0"
+  }
+}
