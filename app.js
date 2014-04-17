@@ -1,11 +1,15 @@
-// get modules
-var express = require('express'),
-    compress = require('compression')(),
-    favicon = require('static-favicon'),
-    bodyParser = require('body-parser'),
-    sass = require('node-sass'),
-    jade = require('jade'),
-    path = require('path');
+var express = require('express'),        // server
+    mongoose = require('mongoose'),      // database
+    compress = require('compression')(), // for serving static files
+    favicon = require('static-favicon'), // for serving favicon
+    bodyParser = require('body-parser'), // for parsing request json
+    sass = require('node-sass'),         // for compiling sass
+    jade = require('jade'),              // for compiling jade
+    path = require('path'),              // for handling url paths
+    expressMongoose = require('express-mongoose');         // adds cool functions to express
+
+
+/********* EXPRESS *********/
 
 // initialize app
 var app = express();
@@ -26,6 +30,17 @@ app.use('/api', bodyParser());
 
 // add routes
 require('./routers/pageRouter.js')(app);
+
+
+/********* MONGOOSE *********/
+mongoose.connect('mongodb://127.0.0.1');
+mongoose.connection
+    .on('error', function() {
+        console.error('✗ mongoose could not connect.')
+    })
+    .on('open', function() {
+        console.log('√ mongoose connected.');
+    });
 
 // start server
 var server = app.listen(app.get('port'), function() {
