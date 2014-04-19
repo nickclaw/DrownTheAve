@@ -12,8 +12,7 @@ var express = require('express'),        // server
     async = require('async'),            // UTIL for asynchronous flow
 
     // sign in
-    passport = require('passport'),
-    GoogleStrategy = require('passport-google').Strategy;
+    passport = require('passport');
 
 
 /********* EXPRESS *********/
@@ -38,15 +37,22 @@ app.use(session({ // session must be before passport
 app.use(compress());
 app.use('/static', express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public/favicon.ico')));
-app.use('/api', bodyParser());
+app.use('', bodyParser());
+
 
 /********* PASSPORT ********/
+// configure passport
+require('./config/passport.js')(passport);
+
 // add passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
 
-// add routes
-require('./routers/pageRouter.js')(app);
+
+/********* ROUTES *********/
+require('./routers/pageRouter.js')(app, passport);
+require('./routers/authRouter.js')(app, passport);
+
 
 /***** START *****/
 async.parallel([
@@ -70,7 +76,7 @@ async.parallel([
         var server = app.listen(app.get('port'), function(err) {
             if (!err) {
                 var port = server.address().port;
-                
+
                 console.log('√ server listening on port: ' + port);
             }
             callback(err);

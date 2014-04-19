@@ -1,6 +1,5 @@
-var User = require('./models/User.js'),
-    Bar = require('./models/Bar.js');
-
+var User = module.exports.User = require('./models/User.js');
+var Bar = module.exports.Bar = require('./models/Bar.js');
 
 /******** CRUD ********/
 var toCrud = {

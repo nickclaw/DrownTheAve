@@ -1,13 +1,13 @@
 var database = require('../database.js');
 
-module.exports = function(app) {
+module.exports = function(app, passport) {
 
     /**
      * Homepage
      */
     app.get('', function(req, res) {
         res.render('home', {
-            users: database.getUser("534f7a5f24ffcf95def997d8")
+            user: req.user
         });
     });
 }

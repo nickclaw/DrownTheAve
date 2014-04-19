@@ -6,4 +6,7 @@ html
 
     body
         h1 hello world
-        h2 #{users[0].username} - #{users[0]._id}
+        if user
+            h2 #{user.username} - #{users._id}
+
+        a(href="/auth/google") logins
