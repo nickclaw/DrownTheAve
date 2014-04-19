@@ -2,16 +2,25 @@ var User = require('./models/User.js'),
     Bar = require('./models/Bar.js');
 
 
+/******** CRUD ********/
 var toCrud = {
     'User' : User,
     'Bar' : Bar
 };
-
-// add get, add, delete functions for each model
 for(var key in toCrud) {
 
-    // wrap it in the function so that key doesn't end up being overwritten
+    // wrap it in a closure so that key doesn't end up being overwritten
     (function(exports, key) {
+
+        /**
+         * Creates a record
+         * @param {object} options
+         * @param {Function?} callback
+         * @return {Promise}
+         */
+        exports['create' + key] = function(options, callback) {
+            return toCrud[key].create(options, callback);
+        }
 
         /**
          * Retrieves or searches for the record
@@ -26,16 +35,6 @@ for(var key in toCrud) {
 
             return toCrud[key].find(options).exec(callback);
         };
-
-        /**
-         * Creates a record
-         * @param {object} options
-         * @param {Function?} callback
-         * @return {Promise}
-         */
-        exports['add' + key] = function(options, callback) {
-            return toCrud[key].create(options, callback);
-        }
 
         /**
          * Deletes a record

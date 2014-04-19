@@ -1,13 +1,13 @@
 var express = require('express'),        // server
     mongoose = require('mongoose'),      // database
-    compress = require('compression')(), // for serving static files
+    compress = require('compression'),   // for serving static files
     favicon = require('static-favicon'), // for serving favicon
     bodyParser = require('body-parser'), // for parsing request json
     sass = require('node-sass'),         // for compiling sass
     jade = require('jade'),              // for compiling jade
-    path = require('path'),              // for handling url paths
-    em = require('express-mongoose');    // adds cool functions to express
-
+    em = require('express-mongoose'),    // adds cool functions to express
+    path = require('path'),              // UTIL for handling url paths
+    async = require('async');            // UTIL for asynchronous flow
 
 /********* EXPRESS *********/
 // initialize app
@@ -22,26 +22,43 @@ app.use('/static/styles', sass.middleware({
     dest: path.join(__dirname, 'public/styles'),
     outputStyle: 'compressed'
 }));
+app.use(compress());
 app.use('/static', express.static(path.join(__dirname, 'public')));
-app.use('/static', compress);
 app.use(favicon(path.join(__dirname, 'public/favicon.ico')));
 app.use('/api', bodyParser());
 
 // add routes
 require('./routers/pageRouter.js')(app);
 
+/***** START *****/
+async.parallel([
 
-/********* MONGOOSE *********/
-mongoose.connect('mongodb://127.0.0.1');
-mongoose.connection
-    .on('error', function() {
-        console.error('✗ mongoose could not connect.')
-    })
-    .on('open', function() {
-        console.log('√ mongoose connected.');
-    });
+    // start mongoose
+    function(callback) {
+        mongoose.connect('mongodb://127.0.0.1', function(err) {
+            if (!err) {
+                var db = mongoose.connection.db,
+                    name = db.databaseName,
+                    loc = db.serverConfig.name;
 
-// start server
-var server = app.listen(app.get('port'), function() {
-    console.log('√ server listening on ' + server.address().port + '.');
+                console.log('√ mongoose connected to: ' + name + '@' + loc);
+            }
+            callback(err);
+        });
+    },
+
+    // start server
+    function(callback) {
+        var server = app.listen(app.get('port'), function(err) {
+            if (!err) {
+                var port = server.address().port;
+                
+                console.log('√ server listening on port: ' + port);
+            }
+            callback(err);
+        });
+    }
+], function(err) {
+    if (err) return console.error(err);
+    console.log('√ successfully running.');
 });

@@ -3,11 +3,11 @@
   "version": "0.0.0",
   "description": "The beer database, for students by students.",
   "repository": {
-      "type": "git",
-      "url": "https://github.com/nickclaw/DrownTheAve"
+    "type": "git",
+    "url": "https://github.com/nickclaw/DrownTheAve"
   },
   "bugs": {
-      "url": "https://github.com/nickclaw/DrownTheAve/issues"
+    "url": "https://github.com/nickclaw/DrownTheAve/issues"
   },
   "author": {
     "name": "Nicholas Clawson",
@@ -25,7 +25,6 @@
   "scripts": {
     "start": "node app.js"
   },
-
   "dependencies": {
     "express": "~4.0.0",
     "jade": "~1.3.1",
@@ -35,6 +34,7 @@
     "node-sass": "~0.8.4",
     "compress": "~0.1.9",
     "mongoose": "~3.8.8",
-    "express-mongoose": "~0.1.0"
+    "express-mongoose": "~0.1.0",
+    "async": "~0.7.0"
   }
 }
