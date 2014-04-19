@@ -1,5 +1,6 @@
 var express = require('express'),        // server
     mongoose = require('mongoose'),      // database
+    passport = require('passport'),      // sign in
     compress = require('compression'),   // for serving static files
     favicon = require('static-favicon'), // for serving favicon
     bodyParser = require('body-parser'), // for parsing request json
@@ -8,11 +9,8 @@ var express = require('express'),        // server
     sass = require('node-sass'),         // for compiling sass
     jade = require('jade'),              // for compiling jade
     em = require('express-mongoose'),    // adds cool functions to express
-    path = require('path'),              // UTIL for handling url paths
-    async = require('async'),            // UTIL for asynchronous flow
-
-    // sign in
-    passport = require('passport');
+    path = require('path'),              // util for handling url paths
+    async = require('async');            // util for asynchronous flow
 
 
 /********* EXPRESS *********/
@@ -30,14 +28,11 @@ app.use('/static/styles', sass.middleware({
 }));
 app.use(cookie()); // cookie must be before session
 app.use(session({ // session must be before passport
-    secret: 'TOP_SECRET',
-    key: 'sid',
-    cookie: {secure: true}
+    secret: 'thisissupertopsecret'
 }));
 app.use(compress());
-app.use('/static', express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public/favicon.ico')));
-app.use('', bodyParser());
+app.use(bodyParser());
 
 
 /********* PASSPORT ********/
@@ -52,6 +47,7 @@ app.use(passport.session());
 /********* ROUTES *********/
 require('./routers/pageRouter.js')(app, passport);
 require('./routers/authRouter.js')(app, passport);
+app.use('/static', express.static(path.join(__dirname, 'public')));
 
 
 /***** START *****/
