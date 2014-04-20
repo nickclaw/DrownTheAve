@@ -52,6 +52,16 @@ require('./routers/authRouter.js')(app, passport);
 require('./routers/apiRouter.js')(app, passport);
 app.use('/static', express.static(path.join(__dirname, 'public')));
 
+// 404 error handler
+// has to be the last app.use statement
+app.use(function(req, res) {
+    res.status(404);
+    res.render('error', {
+        code: 404,
+        message: 'That page could not be found.'
+    });
+});
+
 
 /***** START *****/
 async.parallel([
