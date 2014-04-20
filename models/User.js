@@ -19,7 +19,8 @@ var userSchema = new mongoose.Schema({
         firstName: String,
         lastName: String,
         email: String,
-        picture: String
+        picture: String,
+        new: {type:Boolean, default: true}
     },
     location: {
         type: [Number],

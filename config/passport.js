@@ -23,6 +23,9 @@ module.exports = function(passport) {
             local: {
                 username: username,
                 password: password
+            },
+            profile: {
+                new: true
             }
         })).save(function(err, user, numChanged) {
             if (err) return done(null, false);
@@ -67,7 +70,8 @@ module.exports = function(passport) {
                     profile: {
                         firstName: profile.name.givenName,
                         lastName: profile.name.familyName,
-                        email: profile.emails ? profile.emails[0].value : undefined
+                        email: profile.emails ? profile.emails[0].value : undefined,
+                        new: true
                     }
                 })).save(function(err, user, numChanged) {
                     if (err) return done(null, false);

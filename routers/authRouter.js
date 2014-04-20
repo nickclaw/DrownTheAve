@@ -6,10 +6,15 @@ module.exports = function(app, passport) {
     app.get('/auth/login', function(req, res) {
         res.render('login');
     });
-    app.post('/auth/login', passport.authenticate('local-login', {
-        successRedirect: '/',
-        failureRedirect: '/uhoh'
-    }));
+    app.post('/auth/login', function(req, res, next) {
+        // wrap passport.authenticate in a function
+        // so we can dynamically set the successRedirect
+        var target = req.query.target || '/';
+        passport.authenticate('local-login', {
+            successRedirect: target, //TODO check to make sure this is valid?
+            failureRedirect: '/auth/login?target='+target
+        })(req, res, next);
+    });
 
     // signup
     app.get('/auth/signup', function(req, res) {

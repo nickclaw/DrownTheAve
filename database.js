@@ -6,11 +6,14 @@ var DEFAULT_DISTANCE = 1;
 var THE_AVE = DEFAULT_LOCATION = [-122.313212, 47.658882];
 
 module.exports = {
+    // expose our models
+    User: User,
+    Bar: Bar,
 
     /**
      * Retrieves all bars within a certain distance
      * @param {Request} request to extract options from
-     * @param {Function} callback
+     * @param {Function?} callback
      * @return {Promise}
      */
     getBars: function(req, callback) {
