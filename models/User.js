@@ -37,30 +37,6 @@ userSchema.pre('save', function(next) {
     next();
 });
 
-/**
- * Gets all bars within a given distance
- * @param {Number} distance defaults to 1
- * @param {Array?} location
- * @param {Function} callback
- * @return {Promise}
- */
-userSchema.methods.getBars = function(distance, location, callback) {
-    // make location optional
-    if (typeof location === 'function') {
-        callback = location;
-        location = this.location;
-    }
-
-    // http://docs.mongodb.org/manual/reference/operator/query/center/
-    // run query, return Promise
-    return Bar.find({
-        location: {
-            $geoWithin: {
-                $center: [location, distance]
-            }
-        }
-    }).exec(callback);
-}
 
 /**
  * Returns true if the password matches the hashed password
