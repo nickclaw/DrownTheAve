@@ -1,4 +1,3 @@
-var database = require('../database.js');
 
 module.exports = function(app, passport) {
 
