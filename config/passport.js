@@ -56,6 +56,8 @@ module.exports = function(passport) {
         realm: 'http://localhost:8080'
     }, function(id, profile, done) {
 
+        // TODO extract id from 'id' url?
+
         User.findOne({ '_google_id' : id }, function(err, user) {
 
             // if user doesn't exist, create one

@@ -6,8 +6,8 @@ var mongoose = require('mongoose'),
 var userSchema = new mongoose.Schema({
 
     // accounts
-    _twitter_id: String,
-    _facebook_id: String,
+    _twitter_id: String,  // unused
+    _facebook_id: String, // unused
     _google_id: String,
     local: {
         username: String,

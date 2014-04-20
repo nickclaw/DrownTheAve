@@ -1,16 +1,16 @@
-var express = require('express'),        // server
-    mongoose = require('mongoose'),      // database
-    passport = require('passport'),      // sign in
-    compress = require('compression'),   // for serving static files
-    favicon = require('static-favicon'), // for serving favicon
-    bodyParser = require('body-parser'), // for parsing request json
-    cookie = require('cookie-parser'),   // for cookies
-    session = require('express-session'),// for staying signed in
-    sass = require('node-sass'),         // for compiling sass
-    jade = require('jade'),              // for compiling jade
-    em = require('express-mongoose'),    // adds cool functions to express
-    path = require('path'),              // util for handling url paths
-    async = require('async');            // util for asynchronous flow
+var express = require('express'),            // server
+    mongoose = require('mongoose'),          // database
+    passport = require('passport'),          // sign in
+    compress = require('compression'),       // for serving static files
+    favicon = require('static-favicon'),     // for serving favicon
+    bodyParser = require('body-parser'),     // for parsing request json
+    cookieParser = require('cookie-parser'), // for cookies
+    session = require('cookie-session'),     // stores storing session info in cookies
+    sass = require('node-sass'),             // for compiling sass
+    jade = require('jade'),                  // for compiling jade
+    em = require('express-mongoose'),        // adds cool functions to express
+    path = require('path'),                  // util for handling url paths
+    async = require('async');                // util for asynchronous flow
 
 
 /********* EXPRESS *********/
@@ -26,13 +26,15 @@ app.use('/static/styles', sass.middleware({
     dest: path.join(__dirname, 'public/styles'),
     outputStyle: 'compressed'
 }));
-app.use(cookie()); // cookie must be before session
+app.use(bodyParser());
+app.use(cookieParser()); // cookie must be before session
 app.use(session({ // session must be before passport
-    secret: 'thisissupertopsecret'
+    key: 'drowntheave',
+    secret: 'thisissupertopsecret',
+    cookie: {maxAge: 1000 * 60 * 60 * 24 * 14}
 }));
 app.use(compress());
 app.use(favicon(path.join(__dirname, 'public/favicon.ico')));
-app.use(bodyParser());
 
 
 /********* PASSPORT ********/

@@ -27,7 +27,6 @@ module.exports = function(app, passport) {
         passport.authenticate('google', {failureRedirect: '/uhoh'}),
         function(req, res) {
             res.redirect('/');
-            console.log(req.user);
         }
     );
 
