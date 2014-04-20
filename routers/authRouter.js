@@ -21,6 +21,15 @@ module.exports = function(app, passport) {
     }));
 
 
+    /******* LOCAL *******/
+    app.get('/auth/google', passport.authenticate('google'));
+    app.get('/auth/google/return',
+        passport.authenticate('google', {failureRedirect: '/uhoh'}),
+        function(req, res) {
+            res.redirect('/');
+            console.log(req.user);
+        }
+    );
 
     /******* LOGOUT *******/
     app.get('/auth/logout', function(req, res) {

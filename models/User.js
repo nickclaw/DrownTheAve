@@ -31,10 +31,10 @@ var userSchema = new mongoose.Schema({
  * plaintext. Hash it before we save.
  */
 userSchema.pre('save', function(next) {
-    if (this.isModified('local.password')) {
+    if (this.local.password && this.isModified('local.password')) {
         this.local.password = bcrypt.hashSync(this.local.password, 10);
-        next();
     }
+    next();
 });
 
 /**

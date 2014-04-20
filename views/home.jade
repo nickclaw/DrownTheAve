@@ -7,6 +7,6 @@ html
     body
         h1 hello world
         if user
-            h2 #{user.local.username} - #{user._id}
+            h2 #{user.profile.firstName} #{user.profile.lastName} - #{user._id}
 
         a(href="/auth/google") logins
