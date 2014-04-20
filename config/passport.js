@@ -5,12 +5,12 @@ module.exports = function(passport) {
 
 
     passport.serializeUser(function(user, done) {
-        done(null, user.username);
+        done(null, user.id);
     });
 
     // used to deserialize the user
-    passport.deserializeUser(function(username, done) {
-        User.findOne({'username' : username}, done);
+    passport.deserializeUser(function(id, done) {
+        User.findById(id, done);
     });
 
     passport.use('local-signup', new LocalStrategy({
@@ -18,7 +18,10 @@ module.exports = function(passport) {
     }, function(req, username, password, done) {
 
         (new User({
-            username: username
+            local: {
+                username: username,
+                password: password
+            }
         })).save(function(err, user, numChanged) {
             if (err) return done(null, false);
 
@@ -31,8 +34,17 @@ module.exports = function(passport) {
         passReqToCallback : true
     },function(req, username, password, done) { // callback with email and password from our form
 
-        User.findOne({ 'username' :  username }, function(err, user) {
+        User.findOne({ 'local.username' :  username }, function(err, user) {
+            // check for error
             if (err) return done(null, false);
+
+            // check to see if user exists
+            console.log('checking for user');
+            if (!user) return done(null, false);
+
+            // check to see if password is correct
+            console.log('checking password');
+            if (!user.checkPassword(password)) return done(null, false);
 
             done(null, user);
         });
