@@ -1,16 +1,23 @@
 var User = require('./models/User.js'),
     Bar = require('./models/Bar.js');
 
+// constants
+var DEFAULT_DISTANCE = 1;
+var THE_AVE = DEFAULT_LOCATION = [-122.313212, 47.658882];
+
 module.exports = {
 
     /**
      * Retrieves all bars within a certain distance
-     * @param {Array} lat/long defaults to the ave
-     * @param {Number} distance defaults to 1 mile
+     * @param {Request} request to extract options from
      * @param {Function} callback
      * @return {Promise}
      */
-    getBars: function(location, distance, callback) {
+    getBars: function(req, callback) {
+        var distance = req.session.distance || DEFAULT_DISTANCE;
+        var location = req.session.location ||
+                (req.user ? req.user.location : undefined) || THE_AVE;
+
         return Bar.find({
             location: {
                 $geoWithin: {
