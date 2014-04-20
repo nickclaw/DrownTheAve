@@ -17,7 +17,7 @@ module.exports = function(app, passport) {
 
         req.user.profile.new = false;
 
-        res.render('home', {
+        res.render('welcome', {
             user: req.user,
             bars: []
         });
