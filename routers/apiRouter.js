@@ -1,5 +1,8 @@
-var Bar = require('../models/Bar.js'),
-    theAve = [-122.313212, 47.658882];
+var db = require('../database.js');
+
+// constants
+var DEFAULT_DISTANCE = 1;
+var THE_AVE = DEFAULT_LOCATION = [-122.313212, 47.658882];
 
 module.exports = function(app, passport) {
 
@@ -13,21 +16,14 @@ module.exports = function(app, passport) {
         if (req.query.distance) req.session.distance = req.query.distance;
         if (req.query.location) req.session.location = req.query.location;
 
-        var distance = req.session.distance || 1,
+        var distance = req.session.distance || DEFAUlT_DISTANCE;
         var location = req.session.location ||
-                (req.user ? req.user.location : undefined) || theAve;
+                (req.user ? req.user.location : undefined) || THE_AVE;
 
-        Bar.find({
-            location: {
-                $geoWithin: {
-                    $center: [location, distance]
-                }
-            }
-        }).exec(function(err, bars){
-            console.log(err, bars);
+        db.getBars(location, distance, function(err, bars) {
+            if (err) return res.send('error');
             res.send(bars);
         });
-
     });
 
 }
