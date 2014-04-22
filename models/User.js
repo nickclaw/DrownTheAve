@@ -6,11 +6,11 @@ var mongoose = require('mongoose'),
 var userSchema = new mongoose.Schema({
 
     // accounts
-    _twitter_id: String,  // unused
-    _facebook_id: String, // unused
-    _google_id: String,
+    _twitter_id: {type: String, unique: true},  // unused
+    _facebook_id: {type: String, unique: true}, // unused
+    _google_id: {type: String, unique: true},
     local: {
-        username: String,
+        username: {type: String, unique: true},
         password: String
     },
 
@@ -47,6 +47,34 @@ userSchema.pre('save', function(next) {
 userSchema.methods.checkPassword = function(password) {
     return bcrypt.compareSync(password, this.local.password);
 }
+
+/**
+ * Links an account to this one
+ * @param {User} user
+ * @param {Function} callback
+ */
+userSchema.methods.link = function(user, callback) {
+    var model = this;
+
+    model.schema.eachPath(function(path) {
+        var current = model.get(path),
+            news = user.get(path);
+
+        if (current === undefined) {
+            current.set(news);
+        }
+    });
+
+    // hack to make sure that password isn't rehashed
+    // TODO test to make sure this actually works
+    delete this.$__.activePaths.states.modify.password;
+
+    // TODO update references to user in other models
+
+    // we could return here, but eventually
+    // we will have to do things that require a callback
+    callback(null, model);
+};
 
 
 module.exports = mongoose.model('User', userSchema);

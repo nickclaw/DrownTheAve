@@ -1,5 +1,6 @@
 var User = require('./models/User.js'),
-    Bar = require('./models/Bar.js');
+    Bar = require('./models/Bar.js'),
+    async = require('async');
 
 // constants
 var DEFAULT_DISTANCE = 1;
@@ -12,7 +13,7 @@ module.exports = {
 
     /**
      * Retrieves all bars within a certain distance
-     * @param {Request} request to extract options from
+     * @param {Request} req request to extract options from
      * @param {Function?} callback
      * @return {Promise}
      */
@@ -28,5 +29,49 @@ module.exports = {
                 }
             }
         }).exec(callback);
+    },
+
+    /**
+     * Checks to make sure a username is unique
+     * @param {String} username
+     * @param {Function} callback
+     * @return {Promise}
+     */
+    uniqueUsername: function(username, callback) {
+        return User.find({
+            "local.username": username
+        }).exec(function(err, user) {
+            if (err) return callback(err);
+            callback(null, !!user);
+        });
+    },
+
+    /**
+     * Links two accounts
+     * @param {User} current primary user
+     * @param {User} other linked user
+     * @param {Function} linked
+     */
+    linkAccounts: function(current, other, callback) {
+
+        // link the two users
+        current.link(other, function(err, model) {
+
+            async.parallel([
+
+                // save the current user
+                function(next) {
+                    model.save(next);
+                },
+
+                // delete the old user
+                function() {
+                    other.delete(next);
+                }
+            ], function(err) {
+                if (err) return callback(err);
+                callback(err, model);
+            });
+        });
     }
 }

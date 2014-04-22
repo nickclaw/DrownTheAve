@@ -67,8 +67,8 @@ app.use(function(req, res) {
 async.parallel([
 
     // start mongoose
-    function(callback) {
-        mongoose.connect('mongodb://127.0.0.1', function(err) {
+    function(next) {
+        mongoose.connect('mongodb://127.0.0.1/drowntheave', function(err) {
             if (!err) {
                 var db = mongoose.connection.db,
                     name = db.databaseName,
@@ -76,19 +76,19 @@ async.parallel([
 
                 console.log('√ mongoose connected to: ' + name + '@' + loc);
             }
-            callback(err);
+            next(err);
         });
     },
 
     // start server
-    function(callback) {
+    function(next) {
         var server = app.listen(app.get('port'), function(err) {
             if (!err) {
                 var port = server.address().port;
 
                 console.log('√ server listening on port: ' + port);
             }
-            callback(err);
+            next(err);
         });
     }
 ], function(err) {
