@@ -1,4 +1,5 @@
-var db = require('../database.js');
+var db = require('../database.js'),
+    util = require('./util.js');
 
 module.exports = function(app, passport) {
 
@@ -13,7 +14,7 @@ module.exports = function(app, passport) {
         });
     });
 
-    app.get('/welcome', isAuthenticated, function(req, res) {
+    app.get('/welcome', util.auth, function(req, res) {
 
         req.user.profile.new = false;
 
@@ -36,13 +37,5 @@ module.exports = function(app, passport) {
         } else {
             next();
         }
-    }
-
-    /* Intercepts unauthenticated users and redirects them to
-     * the login page
-     */
-    function isAuthenticated(req, res, next) {
-        if (req.user) return next();
-        res.redirect('/auth/login?target='+req.path);
     }
 }

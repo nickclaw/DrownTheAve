@@ -1,7 +1,8 @@
 var LocalStrategy  = require('passport-local').Strategy,
     GoogleStrategy = require('passport-google').Strategy,
     User = require('../models/User.js'),
-    db = require('../database.js');
+    db = require('../database.js'),
+    url = require('url');
 
 module.exports = function(passport) {
 
@@ -62,19 +63,14 @@ module.exports = function(passport) {
     }, function(req, idUrl, profile, done) {
         // TODO extract id from 'id' url?
 
-        var id = idUrl,            // go from url to id
-            isLink = false;        // is the user linking an account?
-            currentUser = null;    // currently signed in user
-
-
-        console.log(req.user);
+        var id = url.parse(idUrl, true).query.id,  // go from url to id
+            isLink = false;                        // is the user linking
+            currentUser = null;                    // currently signed in user
 
         if (req.user) {
             isLink = true;
             currentUser = req.user;
         }
-
-        console.log(isLink, currentUser);
 
         User.findOne({ '_google_id' : id }, function(err, user) {
 

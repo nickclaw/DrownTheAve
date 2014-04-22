@@ -1,3 +1,4 @@
+var util = require('./util.js');
 
 module.exports = function(app, passport) {
 
@@ -6,7 +7,7 @@ module.exports = function(app, passport) {
     app.get('/auth/login', function(req, res) {
         res.render('login');
     });
-    app.post('/auth/login', function(req, res, next) {
+    app.post('/auth/login', util.unauth, function(req, res, next) {
         // wrap passport.authenticate in a function
         // so we can dynamically set the successRedirect
         var target = req.query.target || '/';
@@ -17,18 +18,18 @@ module.exports = function(app, passport) {
     });
 
     // signup
-    app.get('/auth/signup', function(req, res) {
+    app.get('/auth/signup', util.unauth, function(req, res) {
         res.render('signup');
     });
-    app.post('/auth/signup', passport.authenticate('local-signup', {
+    app.post('/auth/signup', util.unauth, passport.authenticate('local-signup', {
         successRedirect: '/',
         failureRedirect: '/uhoh'
     }));
 
 
     /******* GOOGLE *******/
-    app.get('/auth/google', passport.authenticate('google'));
-    app.get('/auth/google/link', passport.authenticate('google'));
+    app.get('/auth/google', util.unauth, passport.authenticate('google'));
+    app.get('/auth/google/link', util.auth, passport.authenticate('google'));
     app.get('/auth/google/return',
         passport.authenticate('google', {failureRedirect: '/uhoh'}),
         function(req, res) {
@@ -37,7 +38,7 @@ module.exports = function(app, passport) {
     );
 
     /******* LOGOUT *******/
-    app.get('/auth/logout', function(req, res) {
+    app.get('/auth/logout', util.auth, function(req, res) {
         req.logout();
         res.redirect('/');
     });
