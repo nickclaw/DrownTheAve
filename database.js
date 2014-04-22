@@ -65,8 +65,8 @@ module.exports = {
                 },
 
                 // delete the old user
-                function() {
-                    other.delete(next);
+                function(next) {
+                    other.remove(next);
                 }
             ], function(err) {
                 if (err) return callback(err);

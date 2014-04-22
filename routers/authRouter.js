@@ -26,8 +26,9 @@ module.exports = function(app, passport) {
     }));
 
 
-    /******* LOCAL *******/
+    /******* GOOGLE *******/
     app.get('/auth/google', passport.authenticate('google'));
+    app.get('/auth/google/link', passport.authenticate('google'));
     app.get('/auth/google/return',
         passport.authenticate('google', {failureRedirect: '/uhoh'}),
         function(req, res) {

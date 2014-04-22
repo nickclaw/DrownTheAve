@@ -1,6 +1,7 @@
 var LocalStrategy  = require('passport-local').Strategy,
     GoogleStrategy = require('passport-google').Strategy,
-    User = require('../models/User.js');
+    User = require('../models/User.js'),
+    db = require('../database.js');
 
 module.exports = function(passport) {
 
@@ -54,12 +55,26 @@ module.exports = function(passport) {
     }));
 
     /******** GOOGLE ********/
-    passport.use(new GoogleStrategy({
+    passport.use('google', new GoogleStrategy({
         returnURL: 'http://localhost:8080/auth/google/return',
-        realm: 'http://localhost:8080'
-    }, function(id, profile, done) {
-
+        realm: 'http://localhost:8080',
+        passReqToCallback: true
+    }, function(req, idUrl, profile, done) {
         // TODO extract id from 'id' url?
+
+        var id = idUrl,            // go from url to id
+            isLink = false;        // is the user linking an account?
+            currentUser = null;    // currently signed in user
+
+
+        console.log(req.user);
+
+        if (req.user) {
+            isLink = true;
+            currentUser = req.user;
+        }
+
+        console.log(isLink, currentUser);
 
         User.findOne({ '_google_id' : id }, function(err, user) {
 
@@ -74,15 +89,16 @@ module.exports = function(passport) {
                         new: true
                     }
                 })).save(function(err, user, numChanged) {
+                    console.log(err);
                     if (err) return done(null, false);
-                    done(null, user);
+
+                    isLink ? db.linkAccounts(currentUser, user, done) : done(null, user);
                 });
 
             // otherwise return user
             } else {
-                done(null, user);
+                isLink ? db.linkAccounts(currentUser, user, done): done(null, user);
             }
         });
     }));
-
 }

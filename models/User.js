@@ -6,11 +6,11 @@ var mongoose = require('mongoose'),
 var userSchema = new mongoose.Schema({
 
     // accounts
-    _twitter_id: {type: String, unique: true},  // unused
-    _facebook_id: {type: String, unique: true}, // unused
-    _google_id: {type: String, unique: true},
+    _twitter_id: {type: String, unique: true, sparse: true},  // unused
+    _facebook_id: {type: String, unique: true, sparse: true}, // unused
+    _google_id: {type: String, unique: true, sparse: true},
     local: {
-        username: {type: String, unique: true},
+        username: {type: String, unique: true, sparse: true},
         password: String
     },
 
@@ -60,8 +60,10 @@ userSchema.methods.link = function(user, callback) {
         var current = model.get(path),
             news = user.get(path);
 
+        console.log(current, news, path);
+
         if (current === undefined) {
-            current.set(news);
+            model.set(path, news);
         }
     });
 
