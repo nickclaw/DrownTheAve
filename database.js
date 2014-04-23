@@ -1,5 +1,6 @@
 var User = require('./models/User.js'),
     Bar = require('./models/Bar.js'),
+    Special = require('./models/Special.js'),
     async = require('async');
 
 // constants
@@ -10,6 +11,7 @@ module.exports = {
     // expose our models
     User: User,
     Bar: Bar,
+    Special: Special,
 
     /**
      * Retrieves all bars within a certain distance
@@ -73,5 +75,26 @@ module.exports = {
                 callback(err, model);
             });
         });
+    },
+
+    /**
+     * Get all current deals
+     * @param {Function} callback
+     * @return {Promise}
+     */
+    currentDeals: function(callback) {
+        var mpd = 1000 * 60 * 60 * 24,
+            nowDate = new Date(),
+            now = nowDate.getTime(),
+            start = now % mpd * mpd,
+            end = now % mpd + 1 * mpd;
+
+
+        return Special.find({$or: [
+                {days: nowDate.getDay()},
+                {dates: {$gte: start, $lte: end}}
+            ]})
+            .populate('_bar_id')
+            .exec(callback);
     }
 }
