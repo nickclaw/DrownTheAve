@@ -15,6 +15,7 @@ module.exports = function(passport) {
         User.findById(id, done);
     });
 
+
     /******** LOCAL ********/
     // for signin up
     passport.use('local-signup', new LocalStrategy({
@@ -41,6 +42,9 @@ module.exports = function(passport) {
         passReqToCallback : true
     }, function(req, username, password, done) { // callback with email and password from our form
 
+        var isLink = false,
+            currentUser = req.user;
+
         User.findOne({ 'local.username' :  username }, function(err, user) {
             // check for error
             if (err) return done(null, false);
@@ -51,9 +55,10 @@ module.exports = function(passport) {
             // check to see if password is correct
             if (!user.checkPassword(password)) return done(null, false);
 
-            done(null, user);
+            isLink ? db.linkAccounts(currentUser, user, done) : done(null, user);
         });
     }));
+
 
     /******** GOOGLE ********/
     passport.use('google', new GoogleStrategy({

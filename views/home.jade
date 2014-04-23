@@ -10,7 +10,7 @@ html
             h2 #{user.profile.firstName} #{user.profile.lastName} - #{user._id}
             a(href="/auth/logout") logout
         else
-            a(href="/auth/login") login
+            a(href="/auth/local") login
 
         ul
             each bar in bars

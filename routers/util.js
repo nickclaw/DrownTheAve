@@ -32,7 +32,7 @@ module.exports = {
     unauthJSON: function(req, res, next) {
         if(!req.user) return next();
         res.send({
-            error: "Signed in.";
+            error: "Signed in."
         });
     }
 }

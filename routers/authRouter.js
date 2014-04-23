@@ -4,16 +4,17 @@ module.exports = function(app, passport) {
 
     /******* LOCAL *******/
     // login
-    app.get('/auth/login', function(req, res) {
+    app.get('/auth/local', function(req, res) {
         res.render('login');
     });
-    app.post('/auth/login', util.unauth, function(req, res, next) {
+    app.post('/auth/local/link', util.auth, passport.authenticate('local-login'));
+    app.post('/auth/local', util.unauth, function(req, res, next) {
         // wrap passport.authenticate in a function
         // so we can dynamically set the successRedirect
         var target = req.query.target || '/';
         passport.authenticate('local-login', {
             successRedirect: target, //TODO check to make sure this is valid?
-            failureRedirect: '/auth/login?target='+target
+            failureRedirect: '/auth/local?target='+target
         })(req, res, next);
     });
 
