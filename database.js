@@ -86,8 +86,10 @@ module.exports = {
         var mpd = 1000 * 60 * 60 * 24,
             nowDate = new Date(),
             now = nowDate.getTime(),
-            start = now % mpd * mpd,
-            end = now % mpd + 1 * mpd;
+            start = new Date(Math.floor(now / mpd) * mpd),
+            end = new Date(Math.floor(now / mpd + 1)  * mpd);
+
+        console.log(start, nowDate, end);
 
 
         return Special.find({$or: [

@@ -17,8 +17,8 @@ module.exports = function(app, passport) {
         //         start: 0,
         //         end: 1000 * 60 * 60 * 24,
         //
-        //         days: [1,2,3,4,5,6,7],
-        //         dates: Date.now() % (1000 * 60 * 60 * 24),
+        //         days: [0,1,2,3,4,5,6],
+        //         dates: [new Date()],
         //
         //         deal: "Testing"
         //     })).save(function() {
