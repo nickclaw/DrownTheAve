@@ -84,17 +84,17 @@ module.exports = {
      */
     currentDeals: function(callback) {
         var mpd = 1000 * 60 * 60 * 24,
-            nowDate = new Date(),
-            now = nowDate.getTime(),
-            start = new Date(Math.floor(now / mpd) * mpd),
-            end = new Date(Math.floor(now / mpd + 1)  * mpd);
+            now = new Date();
 
-        console.log(start, nowDate, end);
-
+        // round today down
+        now.setHours(0);
+        now.setSeconds(0);
+        now.setMinutes(0);
+        now.setHours(0);
 
         return Special.find({$or: [
-                {days: nowDate.getDay()},
-                {dates: {$gte: start, $lte: end}}
+                {days: now.getDay()},
+                {dates: now}
             ]})
             .populate('_bar_id')
             .exec(callback);

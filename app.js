@@ -13,6 +13,10 @@ var express = require('express'),            // server
     async = require('async');                // util for asynchronous flow
 
 
+/********* ENV *********/
+require('./config/env.js')();
+
+
 /********* EXPRESS *********/
 // initialize app
 var app = express();
