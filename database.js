@@ -83,8 +83,7 @@ module.exports = {
      * @return {Promise}
      */
     currentDeals: function(callback) {
-        var mpd = 1000 * 60 * 60 * 24,
-            now = new Date();
+        var now = new Date();
 
         // round today down
         now.setHours(0);
@@ -94,7 +93,7 @@ module.exports = {
 
         return Special.find({$or: [
                 {days: now.getDay()},
-                {dates: now}
+                {dates: now.floor(Date.Day).toUTC()}
             ]})
             .populate('_bar_id')
             .exec(callback);

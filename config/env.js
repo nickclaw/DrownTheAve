@@ -17,6 +17,7 @@ module.exports = function() {
             this.getUTCMonth(),
             this.getUTCDate(),
             this.getUTCHours(),
+            this.getUTCMinutes(),
             this.getUTCSeconds(),
             this.getUTCMilliseconds()
         );
@@ -24,9 +25,12 @@ module.exports = function() {
 
     /**
      * Rounds down the date, pass in a Date constant
-     * @param {Date.Constant} constant
+     * @param {Date.Constant} to
+     * @return {Date} this
      */
     Date.prototype.floor = function(to) {
+        if (to === undefined) to = Date.Day;
+
         switch (to) {
         case Date.Day:
             this.setHours(0);
@@ -40,5 +44,7 @@ module.exports = function() {
         case Date.Second:
             this.setMilliseconds(0);
         }
+
+        return this;
     }
 }
