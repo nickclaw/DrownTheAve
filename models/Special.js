@@ -25,8 +25,6 @@ specialSchema.methods.toJSON = function() {
         id: this._id,
         start: this.start,
         end: this.end,
-        days: this.days,
-        dates: this.dates,
         deal: this.deal
     };
 }

@@ -3,6 +3,10 @@ var mongoose = require('mongoose'),
 
 var barSchema = new mongoose.Schema({
     name: String,
+
+    start: Number,
+    end: Number,
+
     location: {
         type: [Number],
         index: '2dsphere',
@@ -47,6 +51,8 @@ barSchema.methods.getSpecials = function(date, callback) {
 barSchema.methods.toJSON = function() {
     return {
         id: this._id,
+        start: this.start,
+        end: this.end,
         name: this.name,
         location: this.location
     };
