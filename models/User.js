@@ -78,5 +78,12 @@ userSchema.methods.link = function(user, callback) {
     callback(null, model);
 };
 
+userSchema.methods.toJSON = function() {
+    return {
+        profile: this.profile,
+        location: this.location
+    };
+}
+
 
 module.exports = mongoose.model('User', userSchema);

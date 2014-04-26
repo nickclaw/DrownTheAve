@@ -7,13 +7,17 @@ module.exports = function(app, passport) {
      * Homepage
      */
     app.get('', isNew, function(req, res) {
-
         res.render('home', {
             user: req.user,
-            bars: db.getBars(req)
+            bars: db.getBars(req),
+            specials: db.currentDeals()
         });
     });
 
+    /**
+     * Shown after user creation,
+     * Walks user through setting up account
+     */
     app.get('/welcome', util.auth, function(req, res) {
 
         req.user.profile.new = false;
