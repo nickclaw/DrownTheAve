@@ -1,5 +1,6 @@
 var LocalStrategy  = require('passport-local').Strategy,
     GoogleStrategy = require('passport-google').Strategy,
+    FacebookStrategy = require('passport-facebook').Strategy,
     User = require('../models/User.js'),
     db = require('../database.js'),
     url = require('url');
@@ -66,8 +67,6 @@ module.exports = function(passport) {
         realm: 'http://localhost:8080',
         passReqToCallback: true
     }, function(req, idUrl, profile, done) {
-        // TODO extract id from 'id' url?
-
         var id = url.parse(idUrl, true).query.id,  // go from url to id
             isLink = false;                        // is the user linking
             currentUser = null;                    // currently signed in user
@@ -90,7 +89,6 @@ module.exports = function(passport) {
                         new: true
                     }
                 })).save(function(err, user, numChanged) {
-                    console.log(err);
                     if (err) return done(null, false);
 
                     isLink ? db.linkAccounts(currentUser, user, done) : done(null, user);
@@ -100,6 +98,45 @@ module.exports = function(passport) {
             } else {
                 isLink ? db.linkAccounts(currentUser, user, done): done(null, user);
             }
+        });
+    }));
+
+
+    /******** FACEBOOK ********/
+    passport.use('facebook', new FacebookStrategy({
+        clientID: "ID_GOES_HERE",
+        clientSecret: "SECRET_GOES_HERE",
+        callbackURL: "http://localhost:8080/auth/facebook/return",
+        enableProof: false,
+        passReqToCallback: true
+    }, function(req, accessToken, refreshToken, profile, done) {
+        var id = /* */,
+            isLink = false,
+            currentUser = null;
+
+        if (req.user) {
+            isLink = true;
+            currentUser = req.user;
+        }
+
+        User.findOne({ '_facebook_id': id}, function(err, user) {
+
+            if (!user) {
+                (new User({
+                    _facebook_id: id,
+                    profile: {
+                        // fill from profile
+                        new: true
+                    }
+                })).save(function(err, user, numChanged) {
+                    if (err) return done(null, false);
+
+                    isLink ? db.linkAccounts(currentUser, user, done) : done(null, user);
+                });
+            } else {
+                isLink ? db.linkAccounts(currentUser, user, done): done(null, user);
+            }
+
         });
     }));
 }

@@ -38,6 +38,16 @@ module.exports = function(app, passport) {
         }
     );
 
+    /******** FACEBOOK ********/
+    app.get('/auth/facebook', util.unauth, passport.authenticate('facebook'));
+    app.get('/auth/facebook/link', util.auth, passport.authenticate('facebook'));
+    app.get('/auth/faceboo/return',
+        passport.authenticate('google', {failureRedirect: '/uhoh'}),
+        function(req, res) {
+            res.redirect('/');
+        }
+    );
+
     /******* LOGOUT *******/
     app.get('/auth/logout', util.auth, function(req, res) {
         req.logout();
