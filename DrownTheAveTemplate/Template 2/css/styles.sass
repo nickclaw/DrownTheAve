@@ -7,51 +7,30 @@
 /************ Boxes *********
 
 body
-  background-image: url(../img/drowntheavelogocolor.png)
+  background-image: url(../img/drowntheavelogo.png)
   background-repeat: no-repeat
-  background-size: 15%
+  background-size: 10%
   background-position: bottom 30px right 30px
   background-attachment: fixed
-  background-color: #000000
+  background-color: #EBEBEB
   margin: 0px
   padding: 0px
 
 .container
-  padding-top: 90px
-
-.sidebar!
-
-.left-col
-  background-color: #333333
-  padding: 10px
-  margin-top: 50px
-  margin-left: 20px
-  border: 1px solid #FFFFFF
-
-.main-col
-  background-color: #000000
-  padding: 10px
-  margin-right: 10px
-  margin-left: 10px
-
-.right-col
-  background-color: #333333
-  padding: 10px
-  margin-top: 50px
-  margin-right: 20px
-  border: 1px solid #FFFFFF
+  padding-top: 7%
+  margin-right: 15%
+  margin-left: 15%
 
 footer
   margin: 0px
   padding: 20px
 
 .bar
-  border-radius: 5px
-  padding: 10px
-  margin: 10px
-  background-color: #5200B2
+  border-radius: 10px
+  background-color: #B3B3B3
   text-align: center
-  border: 1px solid #FFFFFF
+  border: 1px solid #000000
+  margin: 10px
 
 /********* Nav bar ******
 
@@ -59,43 +38,46 @@ footer
   position: fixed
   right: 0
   left: 0
-  background: rgba(80, 2, 178, 0.65)
+  background-color: #242424
+  border-bottom: 1px solid #000000
 
 .days
   margin: 0px
   padding: 0px
 
 .person
+  position: fixed
   float: right
-
-.logo
-  padding: 0px
-  float: left
-
-.logo-pic
-  font-family: 'Nobile'
-  bottom: 0
-  font-style: italic
-  padding-top: 10px
-  padding-left: 10px
-  color: #B2B000
-  font-size: 200%
+  right: 10px
+  top: 10px
+  background-color: #FFFFFF
+  border: 1px solid #242424
+  border-radius: 5px
+  text-align: center
 
 .day
+  padding: 20px
   color: #FFFFFF
   font-size: 20px
   font-weight: bold
-  border-bottom: 10px solid rgba(80, 2, 178, 0)
+  border-bottom: 10px solid rgba(0, 0, 0, 0)
   &:hover
-    background-color: #B2B000
-    border-bottom-color: #5002B2
+    background-color: #121212
+    border-bottom-color: #FFFFFF
+
+.prof-pic
+  height: 100%
+  display: block
+  margin-left: auto
+  margin-right: auto
+  padding: 5px
+  border-radius: 5px
 
 /********* Fonts ******
 
 li
   font-family: 'calibri'
   display: inline-block
-  padding: 20px
   -webkit-transition: all 0.5s
   -moz-transition: all 0.5s
   -o-transition: all 0.5s
@@ -105,25 +87,24 @@ li
 h1, h2, h3, h4, h5
   margin: 0px
 
-.main-col h1
+h1
   font-family: 'Nobile'
+  font-weight: bold
+
+.bar-title
   padding-left: 10px
   padding-bottom: 10px
   font-size: 350%
-  font-weight: bold
   font-style: italic
-  color: #B2B000
+  color: #121212
 
 .bar h1
-  font-family: 'Nobile'
-  padding-left: 0px
-  padding-bottom: 0px
+  padding: 10px
   font-size: 175%
-  color: #B2B000
-
-.sidebar h1
-  font-size: 200%
   color: #FFFFFF
+  background-color: #333333
+  padding-top: 10px
+  border-radius: 10px 10px 0px 0px
 
 footer h3
   color: #B2B000
@@ -131,7 +112,7 @@ footer h3
 
 h2
   font-family: 'Philosopher'
-  color: #FFFFFF
+  color: #121212
   font-size: 200%
   padding-top: 10px
   font-weight: bold
@@ -139,3 +120,22 @@ h2
 h3
   font-size: 135%
   color: #000000
+
+h5
+  color: #FFFFFF
+  font-size: 100%
+  padding: 5px
+  font-family: 'Nobile'
+  font-weight: bold
+  background-color: rgba(0, 0, 0, 0.75)
+  position: absolute
+  bottom: 0
+  left: 0
+  right: 0
+  margin-left: auto
+  margin-right: auto
+  -webkit-transition: all 0.5s
+  -moz-transition: all 0.5s
+  -o-transition: all 0.5s
+  -ms-transition: all 0.5s
+  transition: all 0.5s

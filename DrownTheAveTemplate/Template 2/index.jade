@@ -1,130 +1,71 @@
 !!! 5
-html
-  head
-    meta(charset='UTF-8')
-    //
-       css styles file 
-    link(rel='stylesheet', type='text/css', href='css/styles.css')
-    //
-       shortcut icon will go here 
-    link(rel='shortcut icon', type='text/css', href='')
-    //
-       grid library 
-    link(rel='stylesheet', href='http://yui.yahooapis.com/pure/0.4.2/grids-min.css')
-    title Drown the Ave
-    meta(name='author', content='Nick Clawson & Thomas Phan')
-  body
-    header
-      .nav
-        ul.days
-          ul.logo
-            li.logo-pic
-              h4 Drown the Ave
-          li.day Sunday
-          li.day Monday
-          li.day Tuesday
-          li.day Wednesday
-          li.day Thursday
-          li.day Friday
-          li.day Saturday
-          ul.person
-            li Nick Clawson
-            li Sign Out
-    .container
-      //
-         Signup-in Column 
-      .pure-g-r
-        .pure-u-1-8.sidebar
-          .left-col
-            h1 Sign Up
-            p
-              | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-              | tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-              | quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-              | consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-              | cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-              | proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          //
-             signup-col 
-        //
-           Signup Column 
-        //
-           Bar Hours Column 
-        .pure-u-5-8
-          .main-col
-            h1.bar-title Today's Happy Hour Deals
-            .pure-g-r
-              .pure-u-1-2
-                .bar
-                  h1 Finn MacCool's
-                  h2 $1 Wells Drinks
-                  h3 8PM - 9PM
-                  h2 $2 Wells Drinks
-                  h3 9PM - 11PM
-                  h2 $3 Wells Drinks
-                  h3 11PM - 1AM
-                .bar
-                  h1 Earl's on the Ave
-                  h2 $5 PBR Pitchers
-                  h3 8PM - 9PM
-                  h2 $5 Drank
-                  h3 9PM - 22PM
-                .bar
-                  h1 Flowers Bar
-                  h2 $1 Tequilas
-                  h3 8PM - 9PM
-                .bar
-                  h1 A Pizza Mart
-                  h2 $5 Manny's
-                  h3 8PM - 9PM
-                .bar
-                  h1 B Mart
-                  h2 $5 Bitch Drank
-                  h3 8PM - 9PM
-              .pure-u-1-2
-                .bar
-                  h1 Schultzy's
-                  h2 $4 Margaritas
-                  h3 8PM - 9PM
-                  h2 $5 Drank
-                  h3 9PM - 22PM
-                .bar
-                  h1 Dante's
-                  h2 $4 Devil Drank
-                  h3 8PM - 9PM
-                  h2 $5 Drank
-                  h3 9PM - 22PM
-                .bar
-                  h1 College Inn
-                  h2 $4 college drank
-                  h3 8PM - 9PM
-                  h2 $5 Drank
-                  h3 9PM - 22PM
-                .bar
-                  h1 Big Ale Brewery
-                  h2 $4 old drank
-                  h3 8PM - 9PM
-                  h2 $5 Drank
-                  h3 9PM - 22PM
-        //
-           Bar Hours Column 
-        //
-           Find Bars Nearest Column 
-        .pure-u-1-4.sidebar
-          .right-col
-            h1 Search for Bars
-            p
-              | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-              | tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-              | quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-              | consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-              | cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-              | proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          //
-             search-col 
-        //
-           Find Bars Nearest Column 
-      //
-         Main Columns 
-    footer
-      h3
+header
+  .nav
+    ul.days
+      li.day Sunday
+      li.day Monday
+      li.day Tuesday
+      li.day Wednesday
+      li.day Thursday
+      li.day Friday
+      li.day Saturday
+.person
+  img.prof-pic(src='img/prof-pic.jpg')
+  h5 Nick Clawson
+.container
+  h1.bar-title Today's Happy Hour Deals
+  .pure-g-r
+    .pure-u-1-2
+      .bar
+        h1 Finn MacCool's
+        h2 $1 Wells Drinks
+        h3 8PM - 9PM
+        h2 $2 Wells Drinks
+        h3 9PM - 11PM
+        h2 $3 Wells Drinks
+        h3 11PM - 1AM
+      .bar
+        h1 Earl's on the Ave
+        h2 $5 PBR Pitchers
+        h3 8PM - 9PM
+        h2 $5 Drank
+        h3 9PM - 22PM
+      .bar
+        h1 Flowers Bar
+        h2 $1 Tequilas
+        h3 8PM - 9PM
+      .bar
+        h1 A Pizza Mart
+        h2 $5 Manny's
+        h3 8PM - 9PM
+      .bar
+        h1 B Mart
+        h2 $5 Bitch Drank
+        h3 8PM - 9PM
+    .pure-u-1-2
+      .bar
+        h1 Schultzy's
+        h2 $4 Margaritas
+        h3 8PM - 9PM
+        h2 $5 Drank
+        h3 9PM - 22PM
+      .bar
+        h1 Dante's
+        h2 $4 Devil Drank
+        h3 8PM - 9PM
+        h2 $5 Drank
+        h3 9PM - 22PM
+      .bar
+        h1 College Inn
+        h2 $4 college drank
+        h3 8PM - 9PM
+        h2 $5 Drank
+        h3 9PM - 22PM
+      .bar
+        h1 Big Ale Brewery
+        h2 $4 old drank
+        h3 8PM - 9PM
+        h2 $5 Drank
+        h3 9PM - 22PM
+footer
+  h3
