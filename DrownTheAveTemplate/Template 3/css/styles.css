@@ -1,0 +1,142 @@
+@import url(reset.css);
+@import url(http://fonts.googleapis.com/css?family=Nobile:400,700italic,400italic,700);
+@import url(http://fonts.googleapis.com/css?family=Philosopher:400,700,400italic,700italic);
+
+/************ Boxes **********/
+
+body {
+	background-image: url(../img/drowntheavelogo.png);
+	background-repeat: no-repeat;
+	background-size: 10%;
+	background-position: bottom 30px right 30px;
+	background-attachment: fixed;
+	background-color: #EBEBEB;
+	margin: 0px;
+	padding: 0px;
+}
+
+.container  {
+	margin-right: 15%;
+	margin-left: 15%;
+}
+
+
+footer {
+	margin: 0px;
+	padding: 20px;
+}
+
+.bar {
+	border-radius: 10px;
+	background-color: #B3B3B3;
+	text-align: center;
+	border: 1px solid #000000;
+	margin: 10px;
+}
+
+/********* Nav bar *******/
+
+.nav {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	background-color: #242424;
+	border-bottom: 1px solid #000000;
+}
+
+.days {
+	margin: 0px;
+	padding: 0px;
+}
+
+.person {
+	text-align: center;
+	border-bottom: 1px solid #000000;
+}
+
+.day {
+	padding: 20px;
+	color: #FFFFFF;
+	font-size: 20px;
+	font-weight: bold;
+	border-right: 10px solid rgba(0, 0, 0, 0);
+	border-bottom: 1px solid #000000;
+	text-align: right;
+}
+
+.day:hover {
+	background-color: #121212;
+	border-right-color: #FFFFFF;
+}
+
+.prof-pic {
+	height: 100%;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 5px;
+	border-radius: 5px;
+}
+
+/********* Fonts *******/
+
+li {
+	font-family: 'calibri';
+
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+	-o-transition: all 0.5s;
+	-ms-transition: all 0.5s;
+	transition: all 0.5s;
+}
+
+h1, h2, h3, h4, h5 {
+	margin: 0px;
+}
+
+h1 {
+	font-family: 'Nobile';
+	font-weight: bold;
+}
+
+.bar-title {
+	padding-left: 10px;
+	padding-bottom: 10px;
+	font-size: 350%;
+	font-style: italic;
+	color: #121212;
+}
+
+.bar h1 {
+	padding: 10px;
+	font-size: 175%;
+	color: #FFFFFF;
+	background-color: #333333;
+	padding-top: 10px;
+	border-radius: 10px 10px 0px 0px;
+}
+
+footer h3 {
+	color: #B2B000;
+	float: right;
+}
+
+h2 {
+	font-family: 'Philosopher';
+	color: #121212;
+	font-size: 200%;
+	padding-top: 10px;
+	font-weight: bold;
+}
+
+h3 {
+	font-size: 135%;
+	color: #000000;
+}
+
+h5 {
+	color: #FFFFFF;
+	font-family: 'Nobile';
+	padding-top: 10px;
+	font-size: 100%;
+}
