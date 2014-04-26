@@ -16,26 +16,40 @@ var barSchema = new mongoose.Schema({
  * @param {Function} callback
  * @return {Promise}
  */
-barSchema.methods.getSpecials = function(now, callback) {
-    if (typeof now === 'function') {
-        callback = now;
-        now = new Date();
+barSchema.methods.getSpecials = function(date, callback) {
+    if (typeof date === 'function' || date === undefined) {
+        callback = date;
+        date = new Date();
     }
-
-    now.setHours(0);
-    now.setSeconds(0);
-    now.setMinutes(0);
-    now.setHours(0);
 
     return Special.find({
         $and: [
             {_bar_id: this._id},
-            {$or: [
-                {days: now.getDay()},
-                {dates: now.floor(Day.Date).toUTC()}
-            ]}
+            {
+                $or: [
+                    {dates: {
+                        $elemMatch: {$and:[
+                            {$or: [{year: {$exists: false}}, {year: date.getFullYear()}]},
+                            {$or: [{month: {$exists: false}}, {month: date.getMonth()}]},
+                            {$or: [{day: {$exists: false}}, {day: date.getDate()}]},
+                        ]}
+                    }},
+                    {days: date.getDay()}
+                ]
+            }
         ]
     }).exec(callback);
+}
+
+/**
+ * Overwrite json output
+ */
+barSchema.methods.toJSON = function() {
+    return {
+        id: this._id,
+        name: this.name,
+        location: this.location
+    };
 }
 
 module.exports = mongoose.model('Bar', barSchema);

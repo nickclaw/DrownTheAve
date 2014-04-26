@@ -7,7 +7,6 @@ module.exports = function(app, passport) {
      * Homepage
      */
     app.get('', isNew, function(req, res) {
-
         res.render('home', {
             user: req.user,
             bars: db.getBars(req),
@@ -15,6 +14,10 @@ module.exports = function(app, passport) {
         });
     });
 
+    /**
+     * Shown after user creation,
+     * Walks user through setting up account
+     */
     app.get('/welcome', util.auth, function(req, res) {
 
         req.user.profile.new = false;

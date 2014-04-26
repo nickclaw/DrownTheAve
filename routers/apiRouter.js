@@ -19,4 +19,10 @@ module.exports = function(app, passport) {
             res.send(bars);
         });
     });
+
+    app.get('/api/getSpecials', function(req, res) {
+        db.currentDeals(function(err, deals) {
+            res.send(deals);
+        });
+    });
 }

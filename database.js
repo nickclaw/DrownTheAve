@@ -82,19 +82,24 @@ module.exports = {
      * @param {Function} callback
      * @return {Promise}
      */
-    currentDeals: function(callback) {
-        var now = new Date();
+    currentDeals: function(date, callback) {
+        if (typeof date === 'function' || date === undefined) {
+            callback = date;
+            date = new Date();
+        }
 
-        // round today down
-        now.setHours(0);
-        now.setSeconds(0);
-        now.setMinutes(0);
-        now.setHours(0);
-
-        return Special.find({$or: [
-                {days: now.getDay()},
-                {dates: now.floor(Date.Day).toUTC()}
-            ]})
+        return Special.find({
+                $or: [
+                    {dates: {
+                        $elemMatch: {$and:[
+                            {$or: [{year: {$exists: false}}, {year: date.getFullYear()}]},
+                            {$or: [{month: {$exists: false}}, {month: date.getMonth()}]},
+                            {$or: [{day: {$exists: false}}, {day: date.getDate()}]},
+                        ]}
+                    }},
+                    {days: date.getDay()}
+                ]
+            })
             .populate('_bar_id')
             .exec(callback);
     }
