@@ -7,12 +7,12 @@ var specialSchema = new mongoose.Schema({
     start: Number,
     end: Number,
 
-    days: {type: [Number], default: []}, // if recurring
+    days: {type: [Number], default: []}, // if weekly
     dates: {type: [{
         year: Number,
         month: Number,
         day: Number
-    }], default: []}, // if temporary
+    }], default: []}, // if other or date
 
     deal: String
 });

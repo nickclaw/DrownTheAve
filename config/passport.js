@@ -110,7 +110,7 @@ module.exports = function(passport) {
         enableProof: false,
         passReqToCallback: true
     }, function(req, accessToken, refreshToken, profile, done) {
-        var id = /* */,
+        var id = '1',
             isLink = false,
             currentUser = null;
 
@@ -127,7 +127,7 @@ module.exports = function(passport) {
                     profile: {
                         firstName: 'first_name',
                         lastName: 'last_name',
-                        email: 'email@email.com'
+                        email: 'email@email.com',
                         new: true
                     }
                 })).save(function(err, user, numChanged) {

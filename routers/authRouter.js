@@ -1,5 +1,5 @@
 var util = require('./util.js'),
-    User = require('./models/Bar.js');
+    User = require('../models/Bar.js');
 
 module.exports = function(app, passport) {
 
@@ -39,6 +39,7 @@ module.exports = function(app, passport) {
         }
     );
 
+
     /******** FACEBOOK ********/
     app.get('/auth/facebook', util.unauth, passport.authenticate('facebook'));
     app.get('/auth/facebook/link', util.auth, passport.authenticate('facebook'));
@@ -48,6 +49,7 @@ module.exports = function(app, passport) {
             res.redirect('/');
         }
     );
+
 
     /******* UNLINK *******/
 
@@ -63,8 +65,9 @@ module.exports = function(app, passport) {
 
             user[id] = undefined;
 
-            if (req.user._google_id || req.user._facebook_id || req.user.local) {
-                req.user.save(function(err, user) {
+            // make sure that some account is still linked before saving
+            if (user._google_id || user._facebook_id || user.local.username) {
+                user.save(function(err, user) {
                     if (err) return next(err);
                     res.send(user);
                 });
@@ -78,6 +81,7 @@ module.exports = function(app, passport) {
     app.get('/auth/google/unlink', util.auth, unlink('_google_id'));
     app.get('/auth/facebook/unlink', util.auth, unlink('_facebook_id'));
     app.get('/auth/twitter/unlink', util.auth, unlink('_twitter_id'));
+
 
     /******* LOGOUT *******/
     app.get('/auth/logout', util.auth, function(req, res) {
