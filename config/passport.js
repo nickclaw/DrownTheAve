@@ -125,7 +125,9 @@ module.exports = function(passport) {
                 (new User({
                     _facebook_id: id,
                     profile: {
-                        // fill from profile
+                        firstName: 'first_name',
+                        lastName: 'last_name',
+                        email: 'email@email.com'
                         new: true
                     }
                 })).save(function(err, user, numChanged) {
