@@ -7,12 +7,12 @@ var specialSchema = new mongoose.Schema({
     start: Number,
     end: Number,
 
-    days: {type: [Number], default: []}, // if recurring
     dates: {type: [{
         year: Number,
         month: Number,
+        date: Number,
         day: Number
-    }], default: []}, // if temporary
+    }], default: []},
 
     deal: String
 });
@@ -23,6 +23,7 @@ var specialSchema = new mongoose.Schema({
 specialSchema.methods.toJSON = function() {
     return {
         id: this._id,
+        bar: this._bar_id,
         start: this.start,
         end: this.end,
         deal: this.deal

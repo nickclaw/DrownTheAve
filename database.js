@@ -1,7 +1,8 @@
 var User = require('./models/User.js'),
     Bar = require('./models/Bar.js'),
     Special = require('./models/Special.js'),
-    async = require('async');
+    async = require('async'),
+    Promise = require('mongoose').Promise;
 
 // constants
 var DEFAULT_DISTANCE = 1;
@@ -15,22 +16,36 @@ module.exports = {
 
     /**
      * Retrieves all bars within a certain distance
-     * @param {Request} req request to extract options from
+     * @param {Object} options
+     * @param {Array}      options.location [long, lat]
+     * @param {Number}     options.distance (>0)
      * @param {Function?} callback
      * @return {Promise}
      */
-    getBars: function(req, callback) {
-        var distance = req.session.distance || DEFAULT_DISTANCE;
-        var location = req.session.location ||
-                (req.user ? req.user.location : undefined) || THE_AVE;
+    getBars: function(options, callback) {
+        if (typeof options === 'function' || options === undefined) {
+            callback = options;
+            options = {};
+        }
 
-        return Bar.find({
-            location: {
-                $geoWithin: {
-                    $center: [location, distance]
+        var select = options.select || false,
+            distance = options.distance || DEFAULT_DISTANCE,
+            location = options.location || THE_AVE;
+
+        var query = Bar
+            .find({
+                location: {
+                    $geoWithin: {
+                        $center: [location, distance]
+                    }
                 }
-            }
-        }).exec(callback);
+            });
+
+        if (select) {
+            query.select(select);
+        }
+
+        return query.exec(callback);
     },
 
     /**
@@ -79,28 +94,65 @@ module.exports = {
 
     /**
      * Get all current deals
+     * @param {Object} options
+     * @param {Date}       options.now
+     * @param {Number}     options.year (>2000~)
+     * @param {Number}     options.month (0-11)
+     * @param {Number}     options.date (1-31)
+     * @param {Number}     options.day (0-6)
+     * @param {Array}      options.location [lat, long]
+     * @param {Number}     options.distance (>0)
      * @param {Function} callback
      * @return {Promise}
      */
-    currentDeals: function(date, callback) {
-        if (typeof date === 'function' || date === undefined) {
-            callback = date;
-            date = new Date();
+    currentDeals: function(options, callback) {
+        if (typeof options === 'function' || options === undefined) {
+            callback = options;
+            options = {};
         }
 
-        return Special.find({
-                $or: [
-                    {dates: {
-                        $elemMatch: {$and:[
-                            {$or: [{year: {$exists: false}}, {year: date.getFullYear()}]},
-                            {$or: [{month: {$exists: false}}, {month: date.getMonth()}]},
-                            {$or: [{day: {$exists: false}}, {day: date.getDate()}]},
-                        ]}
-                    }},
-                    {days: date.getDay()}
-                ]
-            })
-            .populate('_bar_id')
-            .exec(callback);
+        var promise = new Promise(),
+            now = options.now || new Date(),
+            year = options.year || now.getFullYear(),
+            month = options.month || now.getMonth(),
+            date = options.date || now.getDate(),
+            day = options.day || now.getDay(),
+            location = options.location || THE_AVE,
+            distance = options.distance || DEFAULT_DISTANCE;
+
+        // get the nearby bars first
+        this.getBars({
+            select: '_id',
+            location: location,
+            distance: distance
+        }, function(err, bars) {
+            var barIDs = bars.map(function(value) {
+                return value._id;
+            });
+
+            Special
+                .find({
+                    $and: [
+                        {dates: {
+                            $elemMatch: {$and:[
+                                {$or: [{year: {$exists: false}}, {year: year}]},
+                                {$or: [{month: {$exists: false}}, {month: month}]},
+                                {$or: [{date: {$exists: false}}, {date: date}]},
+                                {$or: [{day: {$exists: false}}, {day: day}]}
+                            ]}
+                        }},
+                        {_bar_id: {$in: barIDs}}
+                    ]
+                })
+                .populate('_bar_id')
+                .exec(function(err, specials) {
+                    promise.resolve(err, specials);
+
+                    if (err && callback) return callback(err);
+                    if (callback) callback(err, specials);
+                });
+        });
+
+        return promise;
     }
 }

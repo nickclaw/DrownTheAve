@@ -20,8 +20,14 @@ module.exports = function(app, passport) {
         });
     });
 
+    /**
+     * Gets current specials near you
+     * @return {Array} of specials nearby
+     */
     app.get('/api/getSpecials', function(req, res) {
-        db.currentDeals(function(err, deals) {
+        db.currentDeals({
+            // options
+        }, function(err, deals) {
             res.send(deals);
         });
     });
