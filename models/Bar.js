@@ -15,37 +15,6 @@ var barSchema = new mongoose.Schema({
 });
 
 /**
- * Gets all the specials for the day
- * @param {Date?} day
- * @param {Function} callback
- * @return {Promise}
- */
-barSchema.methods.getSpecials = function(date, callback) {
-    if (typeof date === 'function' || date === undefined) {
-        callback = date;
-        date = new Date();
-    }
-
-    return Special.find({
-        $and: [
-            {_bar_id: this._id},
-            {
-                $or: [
-                    {dates: {
-                        $elemMatch: {$and:[
-                            {$or: [{year: {$exists: false}}, {year: date.getFullYear()}]},
-                            {$or: [{month: {$exists: false}}, {month: date.getMonth()}]},
-                            {$or: [{day: {$exists: false}}, {day: date.getDate()}]},
-                        ]}
-                    }},
-                    {days: date.getDay()}
-                ]
-            }
-        ]
-    }).exec(callback);
-}
-
-/**
  * Overwrite json output
  */
 barSchema.methods.toJSON = function() {

@@ -8,7 +8,7 @@ var User = require('./models/User.js'),
 var DEFAULT_DISTANCE = 1;
 var THE_AVE = DEFAULT_LOCATION = [-122.313212, 47.658882];
 
-module.exports = {
+var db = module.exports = {
     // expose our models
     User: User,
     Bar: Bar,
@@ -28,24 +28,14 @@ module.exports = {
             options = {};
         }
 
-        var select = options.select || false,
-            distance = options.distance || DEFAULT_DISTANCE,
+        var distance = options.distance || DEFAULT_DISTANCE,
             location = options.location || THE_AVE;
 
-        var query = Bar
-            .find({
-                location: {
-                    $geoWithin: {
-                        $center: [location, distance]
-                    }
-                }
-            });
-
-        if (select) {
-            query.select(select);
-        }
-
-        return query.exec(callback);
+        Bar.geoNear(location, {
+            maxDistance: distance,
+            spherical: true,
+            distanceMultiplier:
+        }, callback);
     },
 
     /**
@@ -57,9 +47,10 @@ module.exports = {
     uniqueUsername: function(username, callback) {
         return User.find({
             "local.username": username
-        }).exec(function(err, user) {
-            if (err) return callback(err);
-            callback(null, !!user);
+        })
+        .select({_id: 1})
+        .exec(function(err, user) {
+            callback(err, !!user);
         });
     },
 
@@ -92,6 +83,7 @@ module.exports = {
         });
     },
 
+
     /**
      * Get all current deals
      * @param {Object} options
@@ -100,8 +92,9 @@ module.exports = {
      * @param {Number}     options.month (0-11)
      * @param {Number}     options.date (1-31)
      * @param {Number}     options.day (0-6)
-     * @param {Array}      options.location [lat, long]
-     * @param {Number}     options.distance (>0)
+     * @param {Array}      options.bars ids
+     * @param {Number}     options.offset
+     * @param {Number}     options.limit
      * @param {Function} callback
      * @return {Promise}
      */
@@ -111,48 +104,67 @@ module.exports = {
             options = {};
         }
 
-        var promise = new Promise(),
-            now = options.now || new Date(),
+        var now = options.now || new Date(),
             year = options.year || now.getFullYear(),
             month = options.month || now.getMonth(),
             date = options.date || now.getDate(),
             day = options.day || now.getDay(),
-            location = options.location || THE_AVE,
-            distance = options.distance || DEFAULT_DISTANCE;
+            bars = options.bars || [],
+            offset = options.offset || 0,
+            limit = options.limit || 10;
 
-        // get the nearby bars first
-        this.getBars({
-            select: '_id',
-            location: location,
-            distance: distance
-        }, function(err, bars) {
-            var barIDs = bars.map(function(value) {
-                return value._id;
+        return Special
+            .find({
+                $and: [
+                    {dates: {
+                        $elemMatch: {$and:[
+                            {$or: [{year: {$exists: false}}, {year: year}]},
+                            {$or: [{month: {$exists: false}}, {month: month}]},
+                            {$or: [{date: {$exists: false}}, {date: date}]},
+                            {$or: [{day: {$exists: false}}, {day: day}]}
+                        ]}
+                    }},
+                    {_bar_id: {$in: bars}}
+                ]
+            })
+            .skip(offset)
+            .limit(limit)
+            .exec(callback);
+    }
+
+    /**
+     * Gets all local bars and deals
+     * @param {Object} options (inherited from getBars and currentDeals)
+     * @param {Function} callback
+     * @return {Promise}
+     */
+    localDeals: function(options, callback) {
+        db.getBars(options, function(err, bars) {
+            if (err) return callback(err);
+
+            options.bars = bars.map(function(bar) {
+                return bar.obj._id;
             });
 
-            Special
-                .find({
-                    $and: [
-                        {dates: {
-                            $elemMatch: {$and:[
-                                {$or: [{year: {$exists: false}}, {year: year}]},
-                                {$or: [{month: {$exists: false}}, {month: month}]},
-                                {$or: [{date: {$exists: false}}, {date: date}]},
-                                {$or: [{day: {$exists: false}}, {day: day}]}
-                            ]}
-                        }},
-                        {_bar_id: {$in: barIDs}}
-                    ]
-                })
-                .populate('_bar_id')
-                .exec(function(err, specials) {
-                    promise.resolve(err, specials);
+            db.currentDeals(options, function(err, deals) {
+                if (err) return callback(err);
 
-                    if (err && callback) return callback(err);
-                    if (callback) callback(err, specials);
+                process.nextTick(function() {
+
+                    // make barmap
+                    var barMap = bars.reduce(function(hash, bar) {
+                        var id = bar.obj._id;
+                        hash[id] = bar.obj.toJSON();
+                        hash[id].distance = bar.dis;
+                        return hash;
+                    }, {});
+
+                    callback(null, {
+                        bars: barMap,
+                        deals: deals
+                    });
                 });
+            });
         });
-
-        return promise;
     }
 }
