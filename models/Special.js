@@ -23,6 +23,7 @@ var specialSchema = new mongoose.Schema({
 specialSchema.methods.toJSON = function() {
     return {
         id: this._id,
+        bar: this._bar_id,
         start: this.start,
         end: this.end,
         deal: this.deal

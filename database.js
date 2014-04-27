@@ -2,7 +2,7 @@ var User = require('./models/User.js'),
     Bar = require('./models/Bar.js'),
     Special = require('./models/Special.js'),
     async = require('async'),
-    Promise = require('mongoose').promise;
+    Promise = require('mongoose').Promise;
 
 // constants
 var DEFAULT_DISTANCE = 1;
@@ -145,7 +145,12 @@ module.exports = {
                     ]
                 })
                 .populate('_bar_id')
-                .exec(promise.resolve);
+                .exec(function(err, specials) {
+                    promise.resolve(err, specials);
+
+                    if (err && callback) return callback(err);
+                    if (callback) callback(err, specials);
+                });
         });
 
         return promise;
