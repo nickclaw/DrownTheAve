@@ -17,6 +17,8 @@ module.exports = {
     /**
      * Retrieves all bars within a certain distance
      * @param {Object} options
+     * @param {Array}      options.location [long, lat]
+     * @param {Number}     options.distance (>0)
      * @param {Function?} callback
      * @return {Promise}
      */
@@ -92,6 +94,14 @@ module.exports = {
 
     /**
      * Get all current deals
+     * @param {Object} options
+     * @param {Date}       options.now
+     * @param {Number}     options.year (>2000~)
+     * @param {Number}     options.month (0-11)
+     * @param {Number}     options.date (1-31)
+     * @param {Number}     options.day (0-6)
+     * @param {Array}      options.location [lat, long]
+     * @param {Number}     options.distance (>0)
      * @param {Function} callback
      * @return {Promise}
      */
@@ -110,28 +120,33 @@ module.exports = {
             location = options.location || THE_AVE,
             distance = options.distance || DEFAULT_DISTANCE;
 
+        // get the nearby bars first
         this.getBars({
             select: '_id',
             location: location,
             distance: distance
-        }, function(err, bars)) {
+        }, function(err, bars) {
+            var barIDs = bars.map(function(value) {
+                return value._id;
+            });
+
             Special
                 .find({
-                    $or: [
+                    $and: [
                         {dates: {
                             $elemMatch: {$and:[
                                 {$or: [{year: {$exists: false}}, {year: year}]},
                                 {$or: [{month: {$exists: false}}, {month: month}]},
-                                {$or: [{day: {$exists: false}}, {day: date}]},
+                                {$or: [{date: {$exists: false}}, {date: date}]},
+                                {$or: [{day: {$exists: false}}, {day: day}]}
                             ]}
                         }},
-                        {days: day},
-                        {_bar_id: {$in: bars}}
+                        {_bar_id: {$in: barIDs}}
                     ]
                 })
                 .populate('_bar_id')
                 .exec(promise.resolve);
-        }
+        });
 
         return promise;
     }

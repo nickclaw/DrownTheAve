@@ -25,4 +25,15 @@ module.exports = function(app, passport) {
             res.send(deals);
         });
     });
+
+    app.get('/api/test', function(req, res) {
+        db.getBars({
+            select: '_id',
+            distance: 20
+        }, function(err, ids) {
+            console.log(ids);
+        });
+
+        res.send('hi');
+    });
 }
