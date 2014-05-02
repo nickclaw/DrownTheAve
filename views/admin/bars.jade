@@ -1,0 +1,27 @@
+doctype html
+html
+    head
+        title bars
+
+    body
+        h2 bars
+
+        a(href="") add
+
+        table
+            thead
+                tr
+                    th index
+                    th name
+                    th edit
+                    th delete
+            tbody
+                each bar in bars
+                    tr
+                        td #{bar.id}
+                        td
+                            a(href=bar.website) #{bar.name}
+                        td
+                            a(href="/admin/bar/edit/#{bar.id}") edit
+                        td
+                            a(href="/admin/bar/delete/#{bar.id}") delete

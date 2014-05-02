@@ -31,10 +31,9 @@ var db = module.exports = {
         var distance = options.distance || DEFAULT_DISTANCE,
             location = options.location || THE_AVE;
 
-        Bar.geoNear(location, {
+        return Bar.geoNear(location, {
             maxDistance: distance,
             spherical: true,
-            distanceMultiplier:
         }, callback);
     },
 
@@ -130,7 +129,7 @@ var db = module.exports = {
             .skip(offset)
             .limit(limit)
             .exec(callback);
-    }
+    },
 
     /**
      * Gets all local bars and deals
