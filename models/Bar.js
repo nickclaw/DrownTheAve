@@ -1,5 +1,6 @@
 var mongoose = require('mongoose'),
-    Special = require('./Special.js');
+    Special = require('./Special.js'),
+    c = require('../config/constants.js');
 
 // for storing the open hours each day
 hoursSchema = new mongoose.Schema({
@@ -14,7 +15,8 @@ var barSchema = new mongoose.Schema({
     location: {
         type: [Number],
         index: '2dsphere',
-        required: true
+        required: true,
+        default: c.THE_AVE
     },
 
     hours: {

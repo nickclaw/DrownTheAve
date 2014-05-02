@@ -1,0 +1,23 @@
+doctype html
+html
+    head
+        title #{bar.name}
+
+    body
+        h2 #{bar.id} - #{bar.name}
+        a(href="/admin/bars") back
+
+        form(method="POST" action="")
+            label name
+            input(name="name" value=bar.name)
+            br
+            label website
+            input(name="website" value=bar.website)
+            br
+            label lat
+            input(name="lat" value=bar.location[1])
+            br
+            label long
+            input(name="long" value=bar.location[0])
+            br
+            input(type="submit" value="edit")

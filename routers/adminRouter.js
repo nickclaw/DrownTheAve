@@ -1,17 +1,69 @@
-var db = require('../database.js');
+var db = require('../database.js'),
+    c = require('../config/constants.js');
 
 module.exports = function(app, passport) {
 
+    /**
+     * Shows all current bars
+     */
     app.get('/admin/bars', function(req, res) {
         res.render('admin/bars', {
             bars: db.Bar.find().exec()
         });
     });
 
+
+    /**
+     * Deletes a bar and redirects
+     */
     app.get('/admin/bar/delete/:id', function(req, res) {
         db.Bar.findByIdAndRemove(req.params.id, function(err) {
             if (err) console.log(err);
 
+            res.redirect('/admin/bars');
+        });
+    });
+
+    /**
+     * Renders the edit bar page
+     */
+    app.get('/admin/bar/edit/:id', function(req, res) {
+        res.render('admin/bar', {
+            bar: db.Bar.findById(req.params.id).exec()
+        });
+    });
+
+    /**
+     * Updates a bar
+     */
+    app.post('/admin/bar/edit/:id', function(req, res) {
+        res.render('admin/bar', {
+            bar: db.Bar.findByIdAndUpdate(req.params.id, {
+                name: req.body.name,
+                website: req.body.website,
+                location: [req.body.long, req.body.lat]
+            })
+        });
+    });
+
+    /**
+     * Renders the page to add a bar
+     */
+    app.get('/admin/bar/add', function(req, res) {
+        res.render('admin/bar', {
+            bar: new db.Bar()
+        });
+    });
+
+    /**
+     * Creates a new bar
+     */
+    app.post('/admin/bar/add', function(req, res) {
+        db.Bar.create({
+            name: req.body.name,
+            website: req.body.website,
+            location: [req.body.long, req.body.lat]
+        }, function(err, bar) {
             res.redirect('/admin/bars');
         });
     });
