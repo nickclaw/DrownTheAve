@@ -29,7 +29,8 @@ module.exports = function(app, passport) {
      */
     app.get('/admin/bar/edit/:id', function(req, res) {
         res.render('admin/bar', {
-            bar: db.Bar.findById(req.params.id).exec()
+            bar: db.Bar.findById(req.params.id).exec(),
+            specials: db.Special.find({_bar_id: req.params.id}).exec()
         });
     });
 
@@ -44,13 +45,13 @@ module.exports = function(app, passport) {
             });
         });
 
-        res.render('admin/bar', {
-            bar: db.Bar.findByIdAndUpdate(req.params.id, {
-                name: req.body.name,
-                website: req.body.website,
-                location: [req.body.long, req.body.lat],
-                hours: hours
-            })
+        db.Bar.findByIdAndUpdate(req.params.id, {
+            name: req.body.name,
+            website: req.body.website,
+            location: [req.body.long, req.body.lat],
+            hours: hours
+        }, function() {
+            res.redirect('/admin/bars');
         });
     });
 
@@ -59,7 +60,8 @@ module.exports = function(app, passport) {
      */
     app.get('/admin/bar/add', function(req, res) {
         res.render('admin/bar', {
-            bar: new db.Bar()
+            bar: new db.Bar(),
+            specials: []
         });
     });
 

@@ -36,6 +36,14 @@ html
 
             input(type="submit" value="edit")
 
+        h3 specials
+        ol
+            each special in specials
+                li special.text -
+                    a(href="/admin/special/edit/#{special.id}") edit
+                    span -
+                    a(href="/admin/special/delete/#{special.id}") delete
+
         script.
             window.addEventListener('load', function(){
                 document.body.addEventListener('click', function(evt) {
