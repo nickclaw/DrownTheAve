@@ -37,11 +37,19 @@ module.exports = function(app, passport) {
      * Updates a bar
      */
     app.post('/admin/bar/edit/:id', function(req, res) {
+        var hours = req.body.hours.map(function(ranges) {
+            var ends = ranges.end;
+            return ranges.start.map(function(start, index) {
+                return {start: start, end: ends[index]};
+            });
+        });
+
         res.render('admin/bar', {
             bar: db.Bar.findByIdAndUpdate(req.params.id, {
                 name: req.body.name,
                 website: req.body.website,
-                location: [req.body.long, req.body.lat]
+                location: [req.body.long, req.body.lat],
+                hours: hours
             })
         });
     });
@@ -59,10 +67,18 @@ module.exports = function(app, passport) {
      * Creates a new bar
      */
     app.post('/admin/bar/add', function(req, res) {
+        var hours = req.body.hours.map(function(ranges) {
+            var ends = ranges.end;
+            return ranges.start.map(function(start, index) {
+                return {start: start, end: ends[index]};
+            });
+        });
+
         db.Bar.create({
             name: req.body.name,
             website: req.body.website,
-            location: [req.body.long, req.body.lat]
+            location: [req.body.long, req.body.lat],
+            hours: hours
         }, function(err, bar) {
             res.redirect('/admin/bars');
         });
