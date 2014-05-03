@@ -9,7 +9,7 @@ html
 
         form(method="POST" action="")
             label bar
-            select
+            select(name="_bar_id")
                 each bar in bars
                     if bar.id === special._bar_id.id
                         option(value=bar.id selected) #{bar.name}

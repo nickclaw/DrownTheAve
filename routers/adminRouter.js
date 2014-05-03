@@ -34,8 +34,8 @@ module.exports = function(app, passport) {
     });
     app.post('/admin/bar/edit/:id', function(req, res) {
         var barData = buildBarFromReq(req);
-        db.Bar.findByIdAndUpdate(req.params.id, barData, function() {
-            res.redirect('/admin/bar/' + bar.id);
+        db.Bar.findByIdAndUpdate(req.params.id, barData, function(err, bar) {
+            res.redirect('/admin/bar/edit/' + bar.id);
         });
     });
 
@@ -90,7 +90,10 @@ module.exports = function(app, passport) {
         });
     });
     app.post('/admin/special/edit/:id', function(req, res) {
-        res.redirect('/admin/specials');
+        var specialData = buildSpecialByReq(req);
+        db.Special.findByIdAndUpdate(req.param.id, specialData, function(err, special) {
+            res.redirect('/admin/special/'+special.id);
+        });
     });
 
     /**
@@ -103,8 +106,11 @@ module.exports = function(app, passport) {
         });
     });
     app.post('/admin/special/add', function(req, res) {
-        console.log(req.body);
-        res.redirect('/admin/specials');
+        var specialData = buildSpecialFromReq(req);
+
+        db.Special.create(specialData, function(err, special) {
+            res.redirect('/admin/special/edit/'+special.id);
+        });
     });
 
 
@@ -133,7 +139,33 @@ module.exports = function(app, passport) {
         return obj;
     }
 
+    /**
+     * Parses body data to an object specialSchema can use
+     * @param {Request} req
+     * @return {Object}
+     */
     function buildSpecialFromReq(req) {
-        console.log(req.body);
+        var obj = {},
+            input = req.body.dates || {},
+            years = input.year || [],
+            months = input.month || [],
+            dates = input.date || [],
+            days = input.day || [];
+            dates = years.map(function(value, index) {
+                return {
+                    year: value || undefined,
+                    month: months[index] || undefined,
+                    date: dates[index] || undefined,
+                    day: days[index] || undefined
+                };
+            });
+
+        obj.dates = dates;
+        obj.start = req.body.start;
+        obj.end = req.body.end;
+        obj.deal = req.body.deal;
+        obj._bar_id = req.body._bar_id;
+
+        return obj;
     }
 }
