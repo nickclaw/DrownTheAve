@@ -90,7 +90,7 @@ module.exports = function(app, passport) {
         });
     });
     app.post('/admin/special/edit/:id', function(req, res) {
-
+        res.redirect('/admin/specials');
     });
 
     /**
@@ -103,7 +103,8 @@ module.exports = function(app, passport) {
         });
     });
     app.post('/admin/special/add', function(req, res) {
-
+        console.log(req.body);
+        res.redirect('/admin/specials');
     });
 
 
@@ -118,11 +119,11 @@ module.exports = function(app, passport) {
         var obj = {},
             input = req.body.hours || [],
             hours = input.map(function(ranges) {
-            var ends = ranges.end;
-            return ranges.start.map(function(start, index) {
-                return {start: start, end: ends[index]};
+                var ends = ranges.end;
+                return ranges.start.map(function(start, index) {
+                    return {start: start, end: ends[index]};
+                });
             });
-        });
 
         obj.hours = hours;
         obj.name = req.body.name || "";
@@ -133,6 +134,6 @@ module.exports = function(app, passport) {
     }
 
     function buildSpecialFromReq(req) {
-
+        console.log(req.body);
     }
 }

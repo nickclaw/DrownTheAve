@@ -5,9 +5,22 @@ html
 
     body
         h2 #{special.id} - #{special._bar_id.name}
-        a(href="/admin/special") back
+        a(href="/admin/specials") back
 
         form(method="POST" action="")
+            label bar
+            select
+                each bar in bars
+                    if bar.id === special._bar_id.id
+                        option(value=bar.id selected) #{bar.name}
+                    else
+                        option(value=bar.id) #{bar.name}
+            br
+
+            label deal
+            textarea(name="deal")
+            br
+
             label start
             input(name="start")
             br
@@ -16,25 +29,22 @@ html
             input(name="end")
             br
 
-            label deal
-            textarea(name="deal")
-            br
-
+            label dates
             each date in special.dates
                 label year
-                input(name="year")
+                input(name="dates[year]" data-type="year")
                 label month
-                input(name="month")
+                input(name="dates[month]" data-type="month")
                 label date
-                input(name="date")
+                input(name="dates[date]" data-type="date")
                 label day
-                input(name="day")
+                input(name="dates[day]" data-type="day")
                 a(href="#" class="delete") -
                 br
 
             a(href="#" class="add") +
-
-            input(type="submit" value="edit"0)
+            br
+            input(type="submit" value="edit")
 
             script.
                 window.addEventListener('load', function() {
@@ -43,7 +53,7 @@ html
 
                         if (evt.target.classList.contains('add')) {
                             evt.preventDefault();
-                            evt.target.insertAdjacentHTML('beforebegin', '<label>year</label><input name="year" /><label>month</label><input name="month" /><label>date</label><input name="date" /><label>day</label><input name="day" /><a href="#" class="delete">-</a><br />');
+                            evt.target.insertAdjacentHTML('beforebegin', '<label>year</label><input name="dates[year]" data-type="year" /><label>month</label><input name="dates[month]" data-type="month" /><label>date</label><input name="dates[date]" data-type="date" /><label>day</label><input name="dates[day]" data-type="day" /><a href="#" class="delete">-</a><br />');
                         } else if (evt.target.classList.contains('delete')) {
                             evt.preventDefault();
                             var form = document.querySelector('form');
@@ -53,5 +63,15 @@ html
                             form.removeChild(evt.target.nextSibling);
                             form.removeChild(evt.target);
                         }
+                    });
+
+                    document.querySelector('form').addEventListener('submit', function(evt) {
+                        ['year', 'month', 'date', 'day'].forEach(function(type) {
+                            var years = document.querySelectorAll('input[data-type='+type+']'),
+                                count = 0;
+                            [].forEach.call(years, function(el) {
+                                el.setAttribute('name', el.getAttribute('name') + '['+(count++)+']');
+                            });
+                        });
                     });
                 });
