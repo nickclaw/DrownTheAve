@@ -14,6 +14,9 @@ var userSchema = new mongoose.Schema({
         password: String
     },
 
+    // permissions
+    isAdmin: {type:Boolean, default: false},
+
     // user information
     profile: {
         firstName: String,

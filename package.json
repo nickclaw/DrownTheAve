@@ -23,7 +23,8 @@
   ],
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "populate": "node populate.js"
   },
   "dependencies": {
     "express": "~4.0.0",

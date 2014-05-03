@@ -1,0 +1,29 @@
+doctype html
+html
+    head
+        title specials
+
+    body
+        h2 specials
+
+        a(href="/admin/special/add") add
+
+        table
+            thead
+                tr
+                    th id
+                    th bar
+                    th special
+                    th edit
+                    th delete
+            tbody
+                each special in specials
+                    tr
+                        td #{special.id}
+                        td
+                            a(href="/admin/bar/#{special._bar_id.id}") #{special._bar_id.name}
+                        td #{special.deal}
+                        td
+                            a(href="/admin/special/edit/#{special.id}") edit
+                        td
+                            a(href="/admin/special/delete/#{special.id}") delete

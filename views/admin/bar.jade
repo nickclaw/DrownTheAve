@@ -1,0 +1,69 @@
+doctype html
+html
+    head
+        title #{bar.name}
+
+    body
+        h2 #{bar.id} - #{bar.name}
+        a(href="/admin/bars") back
+
+        form(method="POST" action="")
+            label name
+            input(name="name" value=bar.name)
+            br
+            label website
+            input(name="website" value=bar.website)
+            br
+            label lat
+            input(name="lat" value=bar.location[1])
+            br
+            label long
+            input(name="long" value=bar.location[0])
+            br
+
+            each i in [0,1,2,3,4,5,6]
+                h4 day #{i}
+                each r in bar.hours[i]
+                    label start
+                    input(name="hours[#{i}][start][]" value=r.start)
+                    label end
+                    input(name="hours[#{i}][end][]" value=r.end)
+                    a(href="#" class="delete") -
+                    br
+
+                a(href="#" class="add" data-index=i) +
+                br
+
+            input(type="submit")
+
+        h3 specials
+        ol
+            each special in specials
+                li special.text -
+                    a(href="/admin/special/edit/#{special.id}") edit
+                    span -
+                    a(href="/admin/special/delete/#{special.id}") delete
+
+        script.
+            window.addEventListener('load', function(){
+                document.body.addEventListener('click', function(evt) {
+                    if (evt.target.tagName !== 'A') return;
+
+                    if (evt.target.classList.contains('add')) {
+                        evt.preventDefault();
+                        var i = evt.target.getAttribute('data-index');
+                        evt.target.insertAdjacentHTML('beforebegin', '<label>start</label><input name="hours['+i+'][start][]"/><label>end</label><input name="hours['+i+'][end][]" /><a href="#" class="delete">-</a><br />')
+
+                    } else if (evt.target.classList.contains('delete')) {
+                        evt.preventDefault();
+                        var form = document.querySelector('form');
+                        for (var i = 0; i < 4; i++) {
+                            form.removeChild(evt.target.previousSibling);
+                        }
+                        form.removeChild(evt.target.nextSibling);
+                        form.removeChild(evt.target);
+
+                        console.log('delete');
+                    }
+                });
+            });

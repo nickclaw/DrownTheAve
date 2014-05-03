@@ -17,6 +17,14 @@ module.exports = {
     },
 
     /**
+     * Redirect if not an admin
+     */
+    admin: function(req, res, next) {
+        if (req.user && req.user.isAdmin) return next();
+        res.redirect('/');
+    },
+
+    /**
      * Return error when unauthorized
      */
     authJSON: function(req, res, next) {
@@ -33,6 +41,16 @@ module.exports = {
         if(!req.user) return next();
         res.send({
             error: "Signed in."
+        });
+    },
+
+    /**
+     * Returns error when not an admin
+     */
+    adminJSON: function(req, res, next) {
+        if (req.user && req.user.isAdmin) return next();
+        res.send({
+            error: "Not an admin."
         });
     }
 }

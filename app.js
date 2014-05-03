@@ -54,6 +54,7 @@ app.use(passport.session());
 require('./routers/pageRouter.js')(app, passport);
 require('./routers/authRouter.js')(app, passport);
 require('./routers/apiRouter.js')(app, passport);
+require('./routers/adminRouter.js')(app, passport);
 app.use('/static', express.static(path.join(__dirname, 'public')));
 
 // 404 error handler

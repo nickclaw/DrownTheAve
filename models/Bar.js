@@ -1,48 +1,50 @@
 var mongoose = require('mongoose'),
-    Special = require('./Special.js');
+    Special = require('./Special.js'),
+    c = require('../config/constants.js');
+
+// for storing the open hours each day
+hoursSchema = new mongoose.Schema({
+    start: Number,
+    end: Number
+});
 
 var barSchema = new mongoose.Schema({
     name: String,
-
-    start: Number,
-    end: Number,
+    website: String,
 
     location: {
         type: [Number],
         index: '2dsphere',
-        required: true
+        required: true,
+        default: c.THE_AVE
+    },
+
+    hours: {
+        0: {type: [hoursSchema], default: []},
+        1: {type: [hoursSchema], default: []},
+        2: {type: [hoursSchema], default: []},
+        3: {type: [hoursSchema], default: []},
+        4: {type: [hoursSchema], default: []},
+        5: {type: [hoursSchema], default: []},
+        6: {type: [hoursSchema], default: []}
     }
 });
 
 /**
- * Gets all the specials for the day
- * @param {Date?} day
- * @param {Function} callback
- * @return {Promise}
+ * Returns true if the bar is open
+ * @param {Date?} date defaults to now
+ * @return {Boolean}
  */
-barSchema.methods.getSpecials = function(date, callback) {
-    if (typeof date === 'function' || date === undefined) {
-        callback = date;
-        date = new Date();
+barSchema.methods.isOpen = function(date) {
+    if (date === undefined) date = new Date();
+    var ranges = this.hours[date.getDay()],
+        milli = Math.floor(date.valueOf() % 1000);
+    for (var i = 0; i < ranges.length; i++) {
+        if (ranges[i].start ) {
+            
+        }
     }
-
-    return Special.find({
-        $and: [
-            {_bar_id: this._id},
-            {
-                $or: [
-                    {dates: {
-                        $elemMatch: {$and:[
-                            {$or: [{year: {$exists: false}}, {year: date.getFullYear()}]},
-                            {$or: [{month: {$exists: false}}, {month: date.getMonth()}]},
-                            {$or: [{day: {$exists: false}}, {day: date.getDate()}]},
-                        ]}
-                    }},
-                    {days: date.getDay()}
-                ]
-            }
-        ]
-    }).exec(callback);
+    return false;
 }
 
 /**

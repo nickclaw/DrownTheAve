@@ -1,3 +1,5 @@
 module.exports = {
-    
+    DEFAULT_DISTANCE: 1,
+    THE_AVE: [-122.313212, 47.658882],
+    DEFAULT_LOCATION: [-122.313212, 47.658882]
 }
