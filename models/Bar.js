@@ -20,15 +20,32 @@ var barSchema = new mongoose.Schema({
     },
 
     hours: {
-        0: [hoursSchema],
-        1: [hoursSchema],
-        2: [hoursSchema],
-        3: [hoursSchema],
-        4: [hoursSchema],
-        5: [hoursSchema],
-        6: [hoursSchema]
+        0: {type: [hoursSchema], default: []},
+        1: {type: [hoursSchema], default: []},
+        2: {type: [hoursSchema], default: []},
+        3: {type: [hoursSchema], default: []},
+        4: {type: [hoursSchema], default: []},
+        5: {type: [hoursSchema], default: []},
+        6: {type: [hoursSchema], default: []}
     }
 });
+
+/**
+ * Returns true if the bar is open
+ * @param {Date?} date defaults to now
+ * @return {Boolean}
+ */
+barSchema.methods.isOpen = function(date) {
+    if (date === undefined) date = new Date();
+    var ranges = this.hours[date.getDay()],
+        milli = Math.floor(date.valueOf() % 1000);
+    for (var i = 0; i < ranges.length; i++) {
+        if (ranges[i].start ) {
+            
+        }
+    }
+    return false;
+}
 
 /**
  * Overwrite json output
