@@ -1,7 +1,10 @@
 define([
     'backbone',
-    'underscore'
-], function(Backbone, _) {
+    'underscore',
+    'model/Search',
+    'model/Bar',
+    'model/Special'
+], function(Backbone, _, Search, Bar, Special) {
 
     var App = Backbone.View.extend({
 
@@ -9,6 +12,10 @@ define([
 
             Backbone.history.start({
                 pushState: true
+            });
+
+            a = new Search([],{
+                model: Special
             });
         }
     });

@@ -26,7 +26,8 @@ specialSchema.methods.toJSON = function() {
         bar: this._bar_id,
         start: this.start,
         end: this.end,
-        deal: this.deal
+        deal: this.deal,
+        dates: this.dates
     };
 }
 
