@@ -3,4 +3,6 @@ html
     head
 
     body
+        script(type="text/javascript")
+            != "user = " + JSON.stringify(user)
         script(type="text/javascript" data-main="/static/scripts/src/main" src="/static/scripts/lib/require.js")

@@ -20,9 +20,11 @@ require.config({
 });
 
 require([
-    'view/app'
-], function(App) {
+    'view/app',
+    'model/User'
+], function(App, User) {
     window.app = new App({
-        el: document.body
+        el: document.body,
+        user: new User(user)
     });
 });

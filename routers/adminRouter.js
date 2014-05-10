@@ -5,13 +5,13 @@ module.exports = function(app, passport) {
 
     app.get('/admin', util.admin, function(req, res) {
         res.render('admin', {
-            user: req.user.toJSON()
+            user: req.user
         });
     });
 
 
     // create REST functions for all models
-    ['Bar', 'Special'].forEach(function(model) {
+    ['Bar', 'Special', 'User'].forEach(function(model) {
 
         /**
          * Returns a collections of objects
