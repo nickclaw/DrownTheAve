@@ -5,10 +5,11 @@ define([
 
     var SearchCollection = Backbone.Collection.extend({
         model: null,
+        _done: false,
 
         options: {
             offset: 0,
-            limit: 20,
+            limit: 2,
             sort: '_id',
             order: 'asc'
         },
@@ -33,7 +34,7 @@ define([
                 collection = this;
 
             options.success = function(resp) {
-                var method = options.reset ? 'reset' : 'set';
+                var method = options.action || 'reset';
                 collection[method](resp, options);
                 if (success) success(collection, resp, options);
                 collection.trigger('sync', collection, resp, options);
@@ -48,11 +49,19 @@ define([
         },
 
         next: function(options) {
+            var self = this;
             options = _.defaults({}, options, {
                 reset: false,
+                action: 'add',
                 data: {
                     limit: this.options.limit,
                     offset: this.models.length
+                },
+                success: function(collection, resp) {
+                    if (resp.length === 0) {
+                        self._done = true;
+                        self.trigger('end', self, resp);
+                    }
                 }
             });
 

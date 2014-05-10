@@ -7,6 +7,10 @@ define([
         collection: null,
         view: null,
 
+        events: {
+            'click .loader': 'getNext'
+        },
+
         initialize: function(options) {
             this.collection = options.collection;
             this.view = options.view;
@@ -14,6 +18,15 @@ define([
             this.listenTo(this.collection, 'add', this.addChildView);
             this.listenTo(this.collection, 'remove', this.removeChildView);
             this.listenTo(this.collection, 'reset', this.render);
+            this.listenTo(this.collection, 'request', function() {
+                this.loader.addClass('loading')
+            });
+            this.listenTo(this.collection, 'sync', function() {
+                this.loader.removeClass('loading');
+            });
+            this.listenTo(this.collection, 'end', function() {
+                this.loader.hide();
+            });
 
             this.loader = Backbone.$('<div>', {
                 class: 'cell pure-u-1-1 loader',
@@ -51,6 +64,10 @@ define([
                 .append(this.loader);
 
             return this;
+        },
+
+        getNext: function() {
+            this.collection.next();
         }
     });
 

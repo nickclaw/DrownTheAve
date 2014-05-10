@@ -13,14 +13,7 @@ define([
 
             'admin/': 'home',
             'admin': 'home',
-            'admin/404': 'error',
-            '*default': function() {
-                // force a redirect
-                Backbone.history.navigate('/admin/404', {
-                    trigger: true,
-                    replace: false
-                });
-            }
+            '*default': 'error'
         },
 
         initialize: function(app) {
@@ -49,10 +42,7 @@ define([
                     view: View
                 }));
             }, function() {
-                Backbone.history.navigate('/admin/404', {
-                    trigger: true,
-                    replace: false
-                });
+                this.error();
             });
         },
 
@@ -61,7 +51,7 @@ define([
          * Renders a 404 error
          */
         error: function() {
-
+            console.error('errorrrr');
         },
 
         /**
