@@ -24,7 +24,7 @@ define([
          * Lets users browse models on the server
          */
         browse: function(type, url) {
-            var app = this.app,
+            var router = this,
                 type = typeMap[type];
 
             // lazy load the needed resources
@@ -35,14 +35,14 @@ define([
                 type.model,
                 type.view
             ], function(SearchPage, Search, Model, View) {
-                app.addPage(url, new SearchPage({
+                router.app.addPage(url, new SearchPage({
                     search: new Search([], {
                         model: Model,
                     }),
                     view: View
                 }));
             }, function() {
-                this.error();
+                router.error();
             });
         },
 

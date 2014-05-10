@@ -3,12 +3,16 @@ body, html, #pages, .page {
     width: 100%;
 }
 
-.page > .container {
+.container {
     width: $width;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.page > .container {
     min-height: 100%;
     height: 100%;
-    margin: auto;
-    padding-top: $navHeight + 10px;
+    padding-top: $navHeight;
     font-size: 0px;
 }
 

@@ -1,8 +1,9 @@
 define([
     'backbone',
     'underscore',
-    'controller/AdminRouter'
-], function(Backbone, _, AdminRouter) {
+    'controller/AdminRouter',
+    'view/admin/Nav'
+], function(Backbone, _, AdminRouter, NavView) {
 
     var App = Backbone.View.extend({
         el: null,
@@ -14,6 +15,11 @@ define([
 
         initialize: function(options) {
             this.user = options.user;
+
+            this.nav = new NavView({
+                user: this.user,
+                el: this.$el.find('#nav')
+            }).render();
 
             new AdminRouter(this);
 
