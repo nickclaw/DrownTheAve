@@ -8,13 +8,18 @@ define([
         el: null,
         user: null,
 
+        events: {
+            'click a:not(.external)' : 'route'
+        },
+
         initialize: function(options) {
             this.user = options.user;
 
             new AdminRouter(this);
 
             Backbone.history.start({
-                pushState: true
+                pushState: true,
+                root: '/admin/'
             });
         },
 
@@ -25,6 +30,15 @@ define([
             }
             a = page;
             this.$("#pages").html(page.render().$el);
+        },
+
+        route: function(evt) {
+            evt.preventDefault();
+            var href = evt.target.getAttribute('href');
+            Backbone.history.navigate(href, {
+                trigger: true,
+                replace: false
+            });
         }
     });
 
