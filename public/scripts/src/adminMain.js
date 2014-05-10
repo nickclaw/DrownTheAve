@@ -1,5 +1,6 @@
 require.config({
     paths: {
+        text: '../lib/text',
         backbone: '../lib/backbone-min',
         underscore: '../lib/underscore-min',
         jquery: '../lib/jquery-2.1.0.min',
@@ -20,7 +21,7 @@ require.config({
 });
 
 require([
-    'view/app',
+    'view/AdminApp',
     'model/User'
 ], function(App, User) {
     window.app = new App({

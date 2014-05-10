@@ -3,6 +3,9 @@ html
     head
 
     body
+        div(id="nav")
+        div(id="pages")
+
         script(type="text/javascript")
             != "user = " + JSON.stringify(user)
-        script(type="text/javascript" data-main="/static/scripts/src/main" src="/static/scripts/lib/require.js")
+        script(type="text/javascript" data-main="/static/scripts/src/adminMain" src="/static/scripts/lib/require.js")
