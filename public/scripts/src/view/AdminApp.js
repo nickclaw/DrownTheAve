@@ -19,7 +19,7 @@ define([
 
             Backbone.history.start({
                 pushState: true,
-                root: '/admin/'
+                root: 'admin'
             });
         },
 

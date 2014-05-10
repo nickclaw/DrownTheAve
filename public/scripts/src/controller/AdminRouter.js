@@ -3,11 +3,12 @@ define([
     'underscore',
     'view/admin/Index',
     'view/admin/SearchPage',
+    'view/item/Bar',
     'model/Search',
     'model/Bar',
     'model/Special',
     'model/User',
-], function(Backbone, _, IndexPage, SearchPage, Search, Bar, Special, User) {
+], function(Backbone, _, IndexPage, SearchPage, BarItemView, Search, Bar, Special, User) {
 
     var AdminRouter = Backbone.Router.extend({
         routes: {
@@ -36,9 +37,10 @@ define([
 
             this.app.addPage(url, new SearchPage({
                 search: new Search([], {
-                    model: Model
-                })
-            }))
+                    model: Model,
+                }),
+                view: BarItemView
+            }));
         },
 
         home: function(url) {

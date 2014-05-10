@@ -14,18 +14,24 @@
     padding: 10px;
     margin-top: 2px;
 
-    h2 {
-        color: black;
+    .inner {
+        color: black !important;
+        text-decoration: none !important;
         position: absolute;
         bottom: 20px;
         left: 20px;
     }
 
+    a {
+        color: inherit;
+        text-decoration: inherit;
+    }
+
     &:hover {
         background-color: #4183c4;
 
-        h2 {
-            color: white;
+        .inner {
+            color: white !important;
         }
     }
 }

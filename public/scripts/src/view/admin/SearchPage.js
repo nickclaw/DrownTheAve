@@ -1,18 +1,26 @@
 define([
     'view/Page',
     'underscore',
+    'view/List',
     'text!template/search.html'
-], function(Page, _, searchTemplate) {
+], function(Page, _, ListView, searchTemplate) {
 
     var SearchPage = Page.extend({
-        search: null,
         template: _.template(searchTemplate),
 
         init: function(options) {
-            this.search = options.search;
+            this.list = new ListView({
+                view: options.view,
+                collection: options.search
+            });
+
+            this.list.render();
         },
 
         render: function() {
+            this.content.html(
+                this.list.$el
+            );
             return this;
         }
     })
