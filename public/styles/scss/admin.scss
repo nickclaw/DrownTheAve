@@ -1,0 +1,31 @@
+@import "_default";
+@import "lib/pure";
+@import "_nav";
+@import "_page";
+
+.page-container {
+    background-color: rgb(245,245,245);
+}
+
+.cell {
+    box-shadow: 0px 2px 2px 1px rgb(200,200,200);
+    background-color: white;
+    height: 120px;
+    padding: 10px;
+    margin-top: 2px;
+
+    h2 {
+        color: black;
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+    }
+
+    &:hover {
+        background-color: #4183c4;
+
+        h2 {
+            color: white;
+        }
+    }
+}
