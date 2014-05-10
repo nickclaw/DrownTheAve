@@ -12,7 +12,7 @@ define([
             google: false,
             facebook: false,
 
-            local: {username: ""}
+            local: {username: ""},
 
             profile: {
                 firstName: "",
@@ -20,7 +20,7 @@ define([
                 picture: "",
                 email: "",
                 new: true
-            }
+            },
             location: [-122.313212, 47.658882]
         },
     });

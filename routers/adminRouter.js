@@ -65,7 +65,7 @@ function basicSearch(Model, options, callback) {
     var sort = {};
     sort[options.sort || '_id'] = options.order || 'asc';
 
-    return model
+    return Model
         .find(options.find || {})
         .limit(options.limit || 10)
         .skip(options.offset || 0)

@@ -16,13 +16,15 @@ define([
      * Overwrite Backbone sync method to work with api better
      * @inheritdoc
      */
-    Backbone.sync = function(method, model, options) {
-        var type = methodMap[method];
+    Backbone.dfs = function(method, model, options) {
+        var type = options.type || methodMap[method];
 
         var params = {
             type: type,
             dataType: 'json',
-            url: _.result(model, 'url')
+            url: _.result(model, 'url'),
+            contentType: 'application/json',
+            processData: true
         };
 
         if (method === 'read' || method === 'update' || method === 'delete') {
@@ -30,8 +32,7 @@ define([
         }
 
         if (method === 'create' || method === 'update') {
-            params.contentType = 'application/json';
-            params.data = JSON.stringify(options.attrs || model.attributes);
+            params.data = options.attrs || model.toJSON();
         }
 
 
@@ -41,6 +42,8 @@ define([
             options.errorThrown = errorThrown;
             if (error) error.apply(this, arguments);
         }
+
+        console.log(_.extend(params, options));
 
         var xhr = options.xhr = Backbone.ajax(_.extend(params, options));
         model.trigger('request', model, xhr, options);

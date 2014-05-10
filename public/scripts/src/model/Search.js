@@ -13,12 +13,16 @@ define([
             order: 'asc'
         },
 
-        initialize: function(options){
+        initialize: function(models, options){
+            this.model = options.model;
             _.defaults(this.options, options.options);
+            this.fetch();
         },
 
         fetch: function(options){
+            options = options || {};
             options = _.defaults({}, options, {
+                type: 'post',
                 url: this.model.prototype.url + 's',
                 parse: true,
                 data: _.defaults({}, options.data, this.options)
@@ -36,8 +40,8 @@ define([
             }
 
             options.error = function(resp) {
-                if (error) error(model, resp, options);
-                model.trigger('error', model, resp, options);
+                if (error) error(collection, resp, options);
+                collection.trigger('error', collection, resp, options);
             };
 
             return this.sync('read', this, options);
