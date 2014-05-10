@@ -1,7 +1,7 @@
 require.config({
     paths: {
         text: '../lib/text',
-        backbone: '../lib/backbone-min',
+        backbone: 'extension/backbone.extension',
         underscore: '../lib/underscore-min',
         jquery: '../lib/jquery-2.1.0.min',
     },
