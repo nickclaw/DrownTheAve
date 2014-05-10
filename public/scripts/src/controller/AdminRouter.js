@@ -1,48 +1,72 @@
 define([
     'backbone',
     'underscore',
-    'view/admin/Index',
-    'view/admin/SearchPage',
-    'view/item/Bar',
-    'model/Search',
-    'model/Bar',
-    'model/Special',
-    'model/User',
-], function(Backbone, _, IndexPage, SearchPage, BarItemView, Search, Bar, Special, User) {
+    'view/admin/Index'
+], function(Backbone, _, IndexPage) {
 
     var AdminRouter = Backbone.Router.extend({
         routes: {
-            'browse/:type': 'search',
+            'admin/browse/:type': 'browse',
 
-            'bar/add': 'newBar',
-            'bar/:id': 'editBar',
+            'admin/bar/new': 'newBar',
+            'admin/bar/:id': 'editBar',
 
-
-            '*default': 'home'
+            'admin/': 'home',
+            'admin': 'home',
+            'admin/404': 'error',
+            '*default': function() {
+                // force a redirect
+                Backbone.history.navigate('/admin/404', {
+                    trigger: true,
+                    replace: false
+                });
+            }
         },
 
         initialize: function(app) {
             this.app = app;
         },
 
-        search: function(type, url) {
-            var Model = null;
-            if (type === 'bar') {Model = Bar}
-            else if (type === 'special') {Model = Special}
-            else if (type === 'user') {Model = User}
+        /**
+         * Lets users browse models on the server
+         */
+        browse: function(type, url) {
+            var app = this.app,
+                type = typeMap[type];
 
-            if (Model === null) {
-                return;
-            }
-
-            this.app.addPage(url, new SearchPage({
-                search: new Search([], {
-                    model: Model,
-                }),
-                view: BarItemView
-            }));
+            // lazy load the needed resources
+            // TODO cleanly handle types we dont' know about
+            require([
+                'view/admin/SearchPage',
+                'model/Search',
+                type.model,
+                type.view
+            ], function(SearchPage, Search, Model, View) {
+                app.addPage(url, new SearchPage({
+                    search: new Search([], {
+                        model: Model,
+                    }),
+                    view: View
+                }));
+            }, function() {
+                Backbone.history.navigate('/admin/404', {
+                    trigger: true,
+                    replace: false
+                });
+            });
         },
 
+
+        /**
+         * Renders a 404 error
+         */
+        error: function() {
+
+        },
+
+        /**
+         * Index page
+         */
         home: function(url) {
             console.log('hi', url);
             this.app.addPage(url, new IndexPage());
@@ -51,3 +75,9 @@ define([
 
     return AdminRouter;
 });
+
+var typeMap = {
+    'bar': {model:'model/Bar', view: 'view/item/Bar'},
+    'special': {model: 'model/Special', view: 'view/item/Special'},
+    'user': {model: 'model/User', view: 'view/item/User'}
+}

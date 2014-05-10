@@ -19,7 +19,7 @@ define([
 
             Backbone.history.start({
                 pushState: true,
-                root: 'admin'
+                root: '/'
             });
         },
 
@@ -35,6 +35,7 @@ define([
         route: function(evt) {
             evt.preventDefault();
             var href = evt.target.getAttribute('href');
+
             Backbone.history.navigate(href, {
                 trigger: true,
                 replace: false
