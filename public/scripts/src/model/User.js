@@ -4,13 +4,23 @@ define([
 ], function(Backbone, _) {
 
     var UserModel = Backbone.Model.extend({
-        url: '/admin/user',
+        url: '/admin/api/user',
         defaults: {
-            username: "",
-            firstName: "",
-            lastName: "",
-            email: "",
-            new: true,
+            id: "",
+            isAdmin: false,
+            twitter: false,
+            google: false,
+            facebook: false,
+
+            local: {username: ""}
+
+            profile: {
+                firstName: "",
+                lastName: "",
+                picture: "",
+                email: "",
+                new: true
+            }
             location: [-122.313212, 47.658882]
         },
     });

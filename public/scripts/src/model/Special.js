@@ -4,7 +4,7 @@ define([
 ], function(Backbone, _) {
 
     var SpecialModel = Backbone.Model.extend({
-        url: '/admin/special',
+        url: '/admin/api/special',
         defaults: {
             id: "",
             bar: null,

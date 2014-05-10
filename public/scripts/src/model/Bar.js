@@ -4,7 +4,7 @@ define([
 ], function(Backbone, _){
 
     var BarModel = Backbone.Model.extend({
-        url: '/admin/bar',
+        url: '/admin/api/bar',
         defaults: {
             id: '',
             name: '',
