@@ -40,7 +40,7 @@ define([
 
         route: function(evt) {
             evt.preventDefault();
-            var href = evt.target.getAttribute('href');
+            var href = evt.currentTarget.getAttribute('href');
 
             Backbone.history.navigate(href, {
                 trigger: true,

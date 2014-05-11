@@ -50,8 +50,13 @@ define([
         /**
          * Renders a 404 error
          */
-        error: function() {
-            console.error('errorrrr');
+        error: function(url) {
+            var router = this;
+            require([
+                'view/Error'
+            ], function(ErrorPage) {
+                router.app.addPage(url, new ErrorPage());
+            }); //no errorback because that means everything has failed...
         },
 
         /**
