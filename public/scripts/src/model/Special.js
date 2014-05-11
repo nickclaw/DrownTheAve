@@ -8,8 +8,7 @@ define([
         defaults: {
             id: "",
             bar: null,
-            start: 0,
-            end: 0,
+            barName: null,
             deal: "",
             dates: []
         }

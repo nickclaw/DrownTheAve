@@ -2,7 +2,7 @@ var db = require('../database.js'),
     util = require('./util.js');
 
 module.exports = function(app, passport) {
-    
+
     ['Bar', 'Special', 'User'].forEach(function(type) {
         lType = type.toLowerCase();
 
@@ -31,7 +31,7 @@ module.exports = function(app, passport) {
         });
 
         app.post('/admin/api/'+lType+'s', util.admin, stripFind, function(req, res) {
-            basicSearch(db.Bar, req.body)
+            basicSearch(db[type], req.body)
                 .exec()
                 .then(function(bars) {
                     res.send(bars);

@@ -9,7 +9,7 @@ define([
 
         options: {
             offset: 0,
-            limit: 2,
+            limit: 10,
             sort: '_id',
             order: 'asc'
         },
@@ -37,6 +37,12 @@ define([
                 var method = options.action || 'reset';
                 collection[method](resp, options);
                 if (success) success(collection, resp, options);
+
+                if (resp.length < collection.options.limit) {
+                    collection._done = true;
+                    collection.trigger('end', self, resp);
+                }
+
                 collection.trigger('sync', collection, resp, options);
             }
 
@@ -56,12 +62,6 @@ define([
                 data: {
                     limit: this.options.limit,
                     offset: this.models.length
-                },
-                success: function(collection, resp) {
-                    if (resp.length === 0) {
-                        self._done = true;
-                        self.trigger('end', self, resp);
-                    }
                 }
             });
 
