@@ -2,44 +2,43 @@ var db = require('../database.js'),
     util = require('./util.js');
 
 module.exports = function(app, passport) {
+    
+    ['Bar', 'Special', 'User'].forEach(function(type) {
+        lType = type.toLowerCase();
 
-    /******* BARS *******/
-    app.post('/admin/api/bar', util.admin, function(req, res) {
-        db.createBar(req.body)
-            .then(function(bar){
-                res.send(bar);
+        app.post('/admin/api/' + lType, util.admin, function(req, res) {
+            db['create'+type](converter[lType](req), function(err, model) {
+                res.send(model);
             });
-    });
+        });
 
-    app.delete('/admin/api/bar/:id', util.admin, function(req, res) {
-        db.deleteBar(req.params.id)
-            .then(function(bar){
-                res.send(bar);
+        app.delete('/admin/api/'+lType+'/:id', util.admin, function(req, res) {
+            db['delete'+type](req.params.id, function(err, model) {
+                res.send(model);
             });
-    });
+        });
 
-    app.get('/admin/api/bar/:id', util.admin, function(req, res) {
-        db.getBar(req.params.id)
-            .then(function(bar){
-                res.send(bar);
+        app.get('/admin/api/'+lType+'/:id', util.admin, function(req, res) {
+            db['get' + type](req.params.id, function(err, model) {
+                res.send(model);
             });
-    });
+        });
 
-    app.put('/admin/api/bar/:id', util.admin, function(req, res) {
-        db.updateBar(req.params.id, req.body)
-            .then(function(bar){
-                res.send(bar);
+        app.put('/admin/api/'+lType+'/:id', util.admin, function(req, res) {
+            db['update' + type](req.params.id, converter[lType](req), function(err, model) {
+                res.send(model);
             });
+        });
+
+        app.post('/admin/api/'+lType+'s', util.admin, stripFind, function(req, res) {
+            basicSearch(db.Bar, req.body)
+                .exec()
+                .then(function(bars) {
+                    res.send(bars);
+                });
+        });
+
     });
-
-    app.post('/admin/api/bars', util.admin, stripFind, function(req, res) {
-        basicSearch(db.Bar, req.body)
-            .then(function(bars) {
-                res.send(bars);
-            });
-    });
-
-
 
     /******* APPLICATION *******/
     app.get('/admin*', util.admin, function(req, res) {
@@ -59,7 +58,7 @@ module.exports = function(app, passport) {
  *                    options.sort
  *                    options.order
  * @param {Function?} callback
- * @return {Promise}
+ * @return {Query}
  */
 function basicSearch(Model, options, callback) {
     var sort = {};
@@ -69,8 +68,7 @@ function basicSearch(Model, options, callback) {
         .find(options.find || {})
         .limit(options.limit || 10)
         .skip(options.offset || 0)
-        .sort(sort)
-        .exec(callback);
+        .sort(sort);
 }
 
 /**
@@ -83,4 +81,28 @@ function stripFind(req, res, next) {
         delete req.body.find;
     }
     next();
+}
+
+/**
+ * Map of converters to convert Backbone representations into
+ * closest mongoose representations. Each function take has
+ * @param {Request} req
+ * @return {Object}
+ */
+var converter = {
+    bar: function(req) {
+        var obj = req.body;
+
+        return obj;
+    },
+    special: function(req) {
+        var obj = req.body;
+
+        return obj;
+    },
+    user: function(req) {
+        var obj = req.body;
+
+        return obj;
+    }
 }

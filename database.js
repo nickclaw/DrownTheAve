@@ -200,7 +200,7 @@ var db = module.exports = {
      * @return {Promise}
      */
     db['update' + model] = function(id, data, callback) {
-        return db[model].findByIdAndUpdate(id, data).exec(callback);
+        return db[model].findByIdAndUpdate(id, {$set: data}).exec(callback);
     }
 
     /**
