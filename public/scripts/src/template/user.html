@@ -1,0 +1,28 @@
+<div class="formContainer pure-u-1-2">
+    <form>
+        <fieldset>
+            <legend>name</legend>
+            <input name="first" type="text" placeholder="first" value="<%-profile.firstName%>">
+            <input name="last" type="text" placeholder="last" value="<%-profile.lastName%>">
+        </fieldset>
+
+        <fieldset>
+            <legend>contact</legend>
+            <input name="email" type="email" placeholder="email" value="<%-profile.email%>">
+            <input name="phone" type="tel" placeholder="phone" value="<%-profile.phone%>">
+        </fieldset>
+
+        <fieldset>
+            <legend>toggle</legend>
+            <label class="switch">
+                <input name="admin" type="checkbox" <%-profile.new ? "checked" : ""%> >
+                <div class="vis"></div>
+            </label>
+
+            <label class="switch">
+                <input name="admin" type="checkbox" <%-isAdmin ? "checked" : ""%> >
+                <div class="vis"></div>
+            </label>
+        </fieldset>
+    </form>
+</div>

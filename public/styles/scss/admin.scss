@@ -2,6 +2,7 @@
 @import "lib/pure";
 @import "_nav";
 @import "_page";
+@import "_form";
 
 .cell {
     box-shadow: 0px 2px 2px 1px rgb(200,200,200);
@@ -20,13 +21,13 @@
         color: inherit;
         text-decoration: inherit;
     }
+}
 
-    &:hover {
-        background-color: #4183c4;
+a.cell:hover {
+    background-color: #4183c4;
 
-        .inner {
-            color: white !important;
-        }
+    .inner {
+        color: white !important;
     }
 }
 
