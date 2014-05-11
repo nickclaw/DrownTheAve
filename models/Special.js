@@ -1,19 +1,10 @@
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+    DateRange = require('./DateRange.js');
 
 var specialSchema = new mongoose.Schema({
     _bar_id: {type: mongoose.Schema.Types.ObjectId, ref: "Bar"},
-
-    // allows us to pretty much specify an combination
-    // of deal times
-    dates: {type: [{
-        year: Number,
-        month: Number,
-        date: Number,
-        day: Number,
-        start: Number,
-        end: Number
-    }], default: []},
-
+    
+    dates: {type: [DateRange], default: []},
     deal: String
 });
 
