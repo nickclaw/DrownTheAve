@@ -1,0 +1,10 @@
+<div class="inner">
+    <h3><%-profile.firstName%> <%-profile.lastName%></h3>
+    <h5><a class="external" href="mailto:<%-profile.email%>"><%-profile.email%></a></h5>
+    <h5><%-id%></h5>
+    <div class="profile-picture">
+        <% if(profile.picture) { %>
+            <img src="<%-profile.picture%>">
+        <% } %>
+    </div>
+</div>
