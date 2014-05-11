@@ -8,8 +8,8 @@ define([
         routes: {
             'admin/browse/:type': 'browse',
 
-            'admin/bar/new': 'newBar',
-            'admin/bar/:id': 'editBar',
+            'admin/:type/new': 'new',
+            'admin/:type/:id': 'edit',
 
             'admin/': 'home',
             'admin': 'home',
@@ -33,7 +33,7 @@ define([
                 'view/admin/SearchPage',
                 'model/Search',
                 type.model,
-                type.view
+                type.itemView
             ], function(SearchPage, Search, Model, View) {
                 router.app.addPage(url, new SearchPage({
                     search: new Search([], {
@@ -42,10 +42,49 @@ define([
                     view: View
                 }));
             }, function() {
-                router.error();
+                router.error(url);
             });
         },
 
+        new: function(type, url) {
+            type = typeMap[type];
+            if (!type) return this.error();
+
+            var router = this;
+            require([
+                type.page,
+                type.model
+            ], function(Page, Model) {
+                router.app.addPage(url, new Page({
+                    model: new Model()
+                }));
+            }, function() {
+                router.error(url);
+            });
+        },
+
+        edit: function(type, id, url) {
+            type = typeMap[type];
+            if (!type) return this.error();
+
+            var router = this;
+            require([
+                type.page,
+                type.model
+            ], function(Page, Model) {
+                var model = new Model({
+                    id: id
+                });
+
+                router.app.addPage(url, new Page({
+                    model: model
+                }));
+
+                model.fetch();
+            }, function() {
+                router.error(url);
+            });
+        },
 
         /**
          * Renders a 404 error
@@ -72,7 +111,7 @@ define([
 });
 
 var typeMap = {
-    'bar': {model:'model/Bar', view: 'view/item/Bar'},
-    'special': {model: 'model/Special', view: 'view/item/Special'},
-    'user': {model: 'model/User', view: 'view/item/User'}
+    'bar': {model:'model/Bar', itemView: 'view/item/Bar', page: 'view/admin/Bar'},
+    'special': {model: 'model/Special', itemView: 'view/item/Special', page: 'view/admin/Special'},
+    'user': {model: 'model/User', itemView: 'view/item/User', page: 'view/admin/User'}
 }

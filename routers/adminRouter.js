@@ -6,32 +6,49 @@ module.exports = function(app, passport) {
     ['Bar', 'Special', 'User'].forEach(function(type) {
         lType = type.toLowerCase();
 
+        /**
+         * Creates a new model
+         */
         app.post('/admin/api/' + lType, util.admin, function(req, res) {
             db['create'+type](converter[lType](req), function(err, model) {
                 res.send(model);
             });
         });
 
+        /**
+         * Deletes a model and returns it (i think)
+         */
         app.delete('/admin/api/'+lType+'/:id', util.admin, function(req, res) {
             db['delete'+type](req.params.id, function(err, model) {
                 res.send(model);
             });
         });
 
+        /**
+         * Retrieves a model
+         */
         app.get('/admin/api/'+lType+'/:id', util.admin, function(req, res) {
             db['get' + type](req.params.id, function(err, model) {
                 res.send(model);
             });
         });
 
+        /**
+         * Updates a model
+         */
         app.put('/admin/api/'+lType+'/:id', util.admin, function(req, res) {
             db['update' + type](req.params.id, converter[lType](req), function(err, model) {
                 res.send(model);
             });
         });
 
+        /**
+         * Paginated search for models
+         * Will eventually be a custom function for each model
+         */
         app.post('/admin/api/'+lType+'s', util.admin, stripFind, function(req, res) {
             basicSearch(db[type], req.body)
+                .populate('_bar_id') // only does anything on specials
                 .exec()
                 .then(function(bars) {
                     res.send(bars);

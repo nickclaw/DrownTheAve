@@ -2,12 +2,12 @@ define([
     'backbone',
     'underscore',
     'text!template/item/user.html'
-], function(Backbone, _, barTemplate) {
+], function(Backbone, _, userTemplate) {
 
     var UserItem = Backbone.View.extend({
         tagName: 'a',
         className: 'item pure-u-1-2 cell',
-        template: _.template(barTemplate),
+        template: _.template(userTemplate),
         model: null,
 
         initialize: function(options) {
