@@ -12,6 +12,10 @@
     margin-top: 2px;
     text-decoration: none;
 
+    &.padded {
+        margin: 15px;
+    }
+
     .inner {
         color: black !important;
         text-decoration: none !important;

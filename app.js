@@ -28,7 +28,8 @@ app.set('view engine', 'jade');
 app.use('/static/styles', sass.middleware({
     src: path.join(__dirname, 'public/styles/scss'),
     dest: path.join(__dirname, 'public/styles'),
-    outputStyle: 'compressed'
+    outputStyle: 'compressed',
+    force: true
 }));
 app.use(bodyParser());
 app.use(cookieParser()); // cookie must be before session

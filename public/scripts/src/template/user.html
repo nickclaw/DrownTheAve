@@ -1,18 +1,18 @@
 <div class="formContainer pure-u-1-2">
-    <form>
-        <fieldset>
+    <form method="POST">
+        <fieldset class="cell padded">
             <legend>name</legend>
             <input name="first" type="text" placeholder="first" value="<%-profile.firstName%>">
             <input name="last" type="text" placeholder="last" value="<%-profile.lastName%>">
         </fieldset>
 
-        <fieldset>
+        <fieldset class="cell padded">
             <legend>contact</legend>
             <input name="email" type="email" placeholder="email" value="<%-profile.email%>">
             <input name="phone" type="tel" placeholder="phone" value="<%-profile.phone%>">
         </fieldset>
 
-        <fieldset>
+        <fieldset class="cell padded">
             <legend>toggle</legend>
             <label class="switch">
                 <input name="admin" type="checkbox" <%-profile.new ? "checked" : ""%> >
@@ -24,5 +24,13 @@
                 <div class="vis"></div>
             </label>
         </fieldset>
+
+        <input name="picture" type="hidden" value=""/>
     </form>
+</div>
+
+<div class="imageContainer pure-u-1-2">
+    <div class="cell padded">
+        <div class="image-container"></div>
+    </div>
 </div>

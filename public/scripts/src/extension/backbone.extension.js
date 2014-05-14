@@ -46,5 +46,20 @@ define([
         return xhr;
     }
 
+    var View = Backbone.View;
+
+    Backbone.View = View.extend({
+        assign: function(view, selector) {
+            view.setElement(this.$(selector)).render();
+            return this;
+        },
+
+        appendTo: function(selector, view) {
+            this.$(selector).html(view.render().$el);
+            view.delegateEvents();
+            return this;
+        }
+    });
+
     return Backbone;
 });
