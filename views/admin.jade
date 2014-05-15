@@ -14,11 +14,11 @@ html(ng-app="app")
         div(id="container")
             div(id="sidebar")
                 div(class="list")
-                    a(class="list-item" href="/") home
-                    a(class="list-item" href="/admin") admin
-                    a(class="list-item" href="/admin/bar") bars
-                    a(class="list-item" href="/admin/special") specials
-                    a(class="list-item" href="/admin/user") users
-                    a(class="list-item" href="/auth/logout") logout
+                    a(class="cell list-item" href="/") home
+                    a(class="cell list-item" href="/admin") admin
+                    a(class="cell list-item" href="/admin/bar") bars
+                    a(class="cell list-item" href="/admin/special") specials
+                    a(class="cell list-item" href="/admin/user") users
+                    a(class="cell list-item" href="/auth/logout") logout
 
             div(id="content" ng-view)
