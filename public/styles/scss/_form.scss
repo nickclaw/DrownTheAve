@@ -1,0 +1,35 @@
+label {
+    display: block;
+    font-size: 13pt;
+    margin: 10px 0;
+
+    input, select {
+        font-size: 13pt;
+        width: 300px;
+        position: absolute;
+        left: 100px;
+    }
+}
+
+
+button {
+    font-size: 16pt;
+    padding: 5px;
+    box-shadow:inset 0px 0px 30px -50px #ffffff;
+    background-color:#ededed;
+    border-radius: 5px;
+    border:1px solid #dcdcdc;
+    color:#777777;
+    font-weight:bold;
+    width:100px;
+    text-shadow:1px 1px 0px #ffffff;
+
+    &:hover {
+        background-color:#dfdfdf;
+    }
+
+    &:active {
+        position:relative;
+        top:1px;
+    }
+}

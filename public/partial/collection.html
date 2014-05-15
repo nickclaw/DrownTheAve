@@ -1,12 +1,12 @@
 <div class="collection-options cell list-item">
-    <label style="display:block;">
+    <label>
         Sort:
         <select ng-model="sort">
             <option ng-repeat="sort in sortOptions" ng-model="sort">{{sort}}</option>
         </select>
     </label>
 
-    <label style="display:block;">
+    <label>
         Order:
         <select ng-model="order">
             <option value="asc" selected>ascending</option>
@@ -14,11 +14,11 @@
         </select>
     </label>
 
-    <label style="display:block;">
+    <label>
         Search:
         <input value="search" ng-model="search"/>
     </label>
 
-    <button ng-click="load()">search</button>
+    <button style="left:300px;" ng-click="load()">search</button>
 </div>
 <item-list />
