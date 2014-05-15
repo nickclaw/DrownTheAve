@@ -1,6 +1,7 @@
 var app = angular.module('app', [
     'ngRoute',
-    'app.controllers'
+    'app.controllers',
+    'app.directives'
 ]);
 
 app.config([
@@ -17,9 +18,7 @@ app.config([
                 controller: 'ItemController'
             })
             .when('/:type', {
-                templateUrl: function(attr) {
-                    return '/static/partial/' + attr.type + 's.html';
-                },
+                templateUrl: '/static/partial/collection.html',
                 controller: 'CollectionController'
             });
     }

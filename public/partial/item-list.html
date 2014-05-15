@@ -1,0 +1,7 @@
+<div class="list">
+    <ng-include ng-repeat="model in models" src="itemUrl"></ng-include>
+
+    <div class="list-item load {{loading ? 'loading' : ''}}" ng-click="loadMore()">
+        <h4>load more?</h4>
+    </div>
+</div>
