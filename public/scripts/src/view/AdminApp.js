@@ -34,7 +34,6 @@ define([
                 page = title;
                 title = "Drown The Ave";
             }
-            a = page;
             this.$("#pages").html(page.render().$el);
         },
 

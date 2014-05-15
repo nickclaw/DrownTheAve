@@ -82,6 +82,7 @@ define([
 
                 model.fetch();
             }, function() {
+                console.error(arguments);
                 router.error(url);
             });
         },

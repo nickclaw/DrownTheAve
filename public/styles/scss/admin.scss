@@ -1,8 +1,9 @@
-@import "_default";
+@import "default";
 @import "lib/pure";
-@import "_nav";
-@import "_page";
-@import "_form";
+@import "nav";
+@import "page";
+@import "form";
+@import "image_upload";
 
 .cell {
     box-shadow: 0px 2px 2px 1px rgb(200,200,200);
