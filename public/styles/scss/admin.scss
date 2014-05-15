@@ -1,57 +1,10 @@
 @import "default";
-@import "lib/pure";
-@import "nav";
 @import "page";
-@import "form";
-@import "image_upload";
+@import "list";
 
-.cell {
-    box-shadow: 0px 2px 2px 1px rgb(200,200,200);
-    background-color: white;
-    min-height: 120px;
-    padding: 10px;
-    margin-top: 2px;
-    text-decoration: none;
-
-    &.padded {
-        margin: 15px;
+#sidebar {
+    .list-item {
+        min-height: 0px;
+        padding: 13px 30px;
     }
-
-    .inner {
-        color: black !important;
-        text-decoration: none !important;
-    }
-
-    a {
-        color: inherit;
-        text-decoration: inherit;
-    }
-}
-
-a.cell:hover {
-    background-color: #4183c4;
-
-    .inner {
-        color: white !important;
-    }
-}
-
-.cell.loader {
-    height: 80px;
-    line-height: 80px;
-    text-align: center;
-    padding: 0px;
-
-    &.loading {
-        font-size: 0px;
-        background-image: url(/static/images/sprites/spinner.gif);
-        background-size: 40px 40px;
-        background-repeat: no-repeat;
-        background-position: 50% 50%;
-        cursor: pointer;
-    }
-}
-
-.error {
-    margin: 50px;
 }

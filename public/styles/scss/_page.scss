@@ -1,21 +1,19 @@
-body, html, #pages, .page {
-    height: 100%;
-    width: 100%;
-}
-
-.container {
-    width: $width;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.page > .container {
-    min-height: 100%;
-    height: 100%;
-    padding-top: $navHeight;
+#container {
+    width: 800px;
     font-size: 0px;
-}
+    margin: 0 auto;
 
-.container > * {
-    font-size: 16pt;
+    #sidebar, #content {
+        display: inline-block;
+        font-size: 14pt;
+        vertical-align: top;
+    }
+
+    #sidebar {
+        width: 200px;
+    }
+
+    #content {
+        width: 600px;
+    }
 }

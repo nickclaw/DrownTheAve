@@ -28,9 +28,7 @@ module.exports = function(app, passport) {
          * Retrieves a model
          */
         app.get('/admin/api/'+lType+'/:id', util.admin, function(req, res) {
-            console.log(req.params.id);
             db['get' + type](req.params.id, function(err, model) {
-                console.log(err, model);
                 res.send(model);
             });
         });

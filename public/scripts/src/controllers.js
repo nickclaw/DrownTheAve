@@ -6,11 +6,19 @@ controllers
         '$http',
         '$routeParams',
         function($scope, $http, $routeParams) {
-            console.log($routeParams);
-            $http.post('/admin/api/' + $routeParams.type + 's', {sort:'name'})
-                .success(function(data) {
-                    $scope.models = data;
-                });
+            $scope.models = [];
+            $scope.loading = true;
+
+            $scope.loadMore = function() {
+                $scope.loading = true;
+                $http.post('/admin/api/' + $routeParams.type + 's', {sort:'name', offset: $scope.models.length})
+                    .success(function(data) {
+                        $scope.loading = false;
+                        $scope.models = $scope.models.concat(data);
+                    });
+            }
+
+            $scope.loadMore();
         }
     ])
     .controller('ItemController', [
