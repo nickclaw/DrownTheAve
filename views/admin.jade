@@ -1,11 +1,13 @@
 doctype html
-html
+html(ng-app="app")
     head
         link(href="/static/styles/admin.css" rel="stylesheet" type="text/css")
+        script(src="/static/scripts/lib/angular.js" type="text/javascript")
+        script(src="/static/scripts/lib/angular-route.js" type="text/javascript")
+        script(src="/static/scripts/lib/angular-resource.js" type="text/javascript")
+        script(src="/static/scripts/src/app.js" type="text/javascript")
+        script(src="/static/scripts/src/controllers.js" type="text/javascript")
+
     body
         div(id="nav")
-        div(id="pages")
-
-        script(type="text/javascript")
-            != "user = " + JSON.stringify(user)
-        script(type="text/javascript" data-main="/static/scripts/src/adminMain" src="/static/scripts/lib/require.js")
+        div(id="pages" ng-view)
