@@ -4,13 +4,10 @@ controllers
     .controller('CollectionController', [
         '$scope',
         '$routeParams',
-        'Item',
-        function($scope, $routeParams, Item) {
-            $scope.loading = true;
+        function($scope, $routeParams) {
             $scope.itemUrl = "/static/partial/item/" + $routeParams.type + "-item.html";
-            $scope.models = Item.search({
-                type: $routeParams.type,
-            });
+            $scope.listOptions = {};
+            $scope.type = $routeParams.type;
         }
     ])
     .controller('ItemController', [

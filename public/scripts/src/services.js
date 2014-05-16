@@ -15,7 +15,8 @@ resources.factory('Item', [
                 delete: {method: 'DELETE'},
                 save: {method: 'PUT'},
                 create: {method: 'POST', url:'/admin/api/:type\s'},
-                search: {method: 'POST', url:'/admin/api/:type/search', isArray: true}
+                search: {method: 'POST', url:'/admin/api/:type/search', isArray: true},
+                next: {method: 'POST', url:'/admin/api/:type'}
             }
         )
     }
