@@ -60,8 +60,6 @@ barSchema.methods.isOpen = function(date) {
 barSchema.methods.toJSON = function() {
     return {
         id: this._id,
-        start: this.start,
-        end: this.end,
         name: this.name,
         website: this.website,
         location: this.location,

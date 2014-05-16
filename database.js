@@ -194,7 +194,7 @@ var db = module.exports = {
     }
 
     /**
-     * Update a model
+     * Update a model, only changing given parameters
      * @param {String} id
      * @param {Function?} callback
      * @return {Promise}
