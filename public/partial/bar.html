@@ -1,3 +1,25 @@
-<div>
-    {{model.name}}
+<div class="list-item cell">
+
 </div>
+
+<div class="list-item cell">
+    <label>
+        Name:
+        <input ng-model="model.name" />
+    </label>
+    <label>
+        Website:
+        <input ng-model="model.website" />
+    </label>
+    <label>
+        Latitiude:
+        <input type="number" ng-model"model.location[1]" value="{{model.location[1]}}"/>
+    </label>
+    <label>
+        Longitude:
+        <input type="number" ng-model"model.location[0]" value="{{model.location[0]}}"/>
+    </label>
+    <button style="left:300px;" ng-click="save()">Submit</button>
+</div>
+
+<h2>Specials</h2>
