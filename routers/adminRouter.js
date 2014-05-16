@@ -7,6 +7,19 @@ module.exports = function(app, passport) {
         lType = type.toLowerCase();
 
         /**
+         * Paginated search for models
+         * Will eventually be a custom function for each model
+         */
+        app.post('/admin/api/'+lType+'/search', util.admin, stripFind, function(req, res) {
+            basicSearch(db[type], req.body)
+                .populate('_bar_id') // only does anything on specials
+                .exec()
+                .then(function(bars) {
+                    res.send(bars);
+                });
+        });
+
+        /**
          * Creates a new model
          */
         app.post('/admin/api/' + lType, util.admin, function(req, res) {
@@ -45,20 +58,6 @@ module.exports = function(app, passport) {
                 res.send(404, {error: true});
             });
         });
-
-        /**
-         * Paginated search for models
-         * Will eventually be a custom function for each model
-         */
-        app.post('/admin/api/'+lType+'s', util.admin, stripFind, function(req, res) {
-            basicSearch(db[type], req.body)
-                .populate('_bar_id') // only does anything on specials
-                .exec()
-                .then(function(bars) {
-                    res.send(bars);
-                });
-        });
-
     });
 
     /******* APPLICATION *******/

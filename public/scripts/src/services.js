@@ -9,19 +9,13 @@ resources.factory('Item', [
             {
                 id: '@id',
                 type: '@type',
-                s: 's' // so we can turn /api/type to /api/types
             },
             {
                 get: {method: 'GET'},
                 delete: {method: 'DELETE'},
                 save: {method: 'PUT'},
                 create: {method: 'POST', url:'/admin/api/:type\s'},
-                search: {method: 'POST', url:'/admin/api/:type:s', isArray: true, data: {
-                    offset: 0,
-                    limit: 10,
-                    sort: 'name',
-                    order: 'desc'
-                }}
+                search: {method: 'POST', url:'/admin/api/:type/search', isArray: true}
             }
         )
     }

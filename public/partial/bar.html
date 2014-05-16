@@ -13,13 +13,13 @@
     </label>
     <label>
         Latitiude:
-        <input type="number" ng-model"model.location[1]" value="{{model.location[1]}}"/>
+        <input ng-model="model.location[1]" />
     </label>
     <label>
         Longitude:
-        <input type="number" ng-model"model.location[0]" value="{{model.location[0]}}"/>
+        <input ng-model="model.location[0]" />
     </label>
-    <button style="left:300px;" ng-click="save()">Submit</button>
+    <button style="left:300px;" ng-click="model.$save({type: 'bar'})">Submit</button>
 </div>
 
 <h2>Specials</h2>
