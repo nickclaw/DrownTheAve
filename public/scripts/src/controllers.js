@@ -19,5 +19,8 @@ controllers
                 id: $routeParams.id,
                 type: $routeParams.type
             });
+
+            scope = $scope;
+
         }
     ]);
