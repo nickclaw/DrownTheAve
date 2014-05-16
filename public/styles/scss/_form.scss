@@ -1,13 +1,19 @@
 label {
+    width: 100%;
     display: block;
     font-size: 13pt;
     margin: 10px 0;
+    vertical-align: top;
 
-    input, select {
+    input, select, textarea {
         font-size: 13pt;
         width: 300px;
-        position: absolute;
-        left: 100px;
+        right: 0px;
+    }
+
+    textarea {
+        height: 150px;
+        resize: none;
     }
 }
 

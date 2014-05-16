@@ -25,7 +25,7 @@ module.exports = function(app, passport) {
         app.post('/admin/api/' + lType, util.admin, function(req, res) {
             db['create'+type](converter[lType](req), function(err, model) {
                 if (model) return res.send(model);
-                res.send(404, {error:true});
+                res.send(404, {error:err});
             });
         });
 
@@ -35,7 +35,7 @@ module.exports = function(app, passport) {
         app.delete('/admin/api/'+lType+'/:id', util.admin, function(req, res) {
             db['delete'+type](req.params.id, function(err, model) {
                 if(model) return res.send(model);
-                res.send(404, {error: true});
+                res.send(404, {error: err});
             });
         });
 
@@ -45,7 +45,7 @@ module.exports = function(app, passport) {
         app.get('/admin/api/'+lType+'/:id', util.admin, function(req, res) {
             db['get' + type](req.params.id, function(err, model) {
                 if (model) return res.send(model);
-                res.send(404, {error: true})
+                res.send(404, {error: err})
             });
         });
 
@@ -55,7 +55,7 @@ module.exports = function(app, passport) {
         app.put('/admin/api/'+lType+'/:id', util.admin, function(req, res) {
             db['update' + type](req.params.id, converter[lType](req), function(err, model) {
                 if (model) return res.send(model);
-                res.send(404, {error: true});
+                res.send(404, {error: err});
             });
         });
     });

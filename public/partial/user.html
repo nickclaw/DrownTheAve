@@ -1,0 +1,30 @@
+<div class="list-item cell">
+    <label>
+        First Name:
+        <input ng-model="model.profile.firstName"></input>
+    </label>
+    <label>
+        Last Name:
+        <input ng-model="model.profile.lastName"></input>
+    </label>
+    <label>
+        Email:
+        <input ng-model="model.profile.email"></input>
+    </label>
+    <label>
+        Phone:
+        <input ng-model="model.profile.phone"></input>
+    </label>
+</div>
+
+<div class="list-item cell">
+    <label>
+        Latitude:
+        <input ng-model="model.location[1]"></input>
+    </label>
+    <label>
+        Longitude:
+        <input ng-model="model.location[0]"></input>
+    </label>
+    <button style="left:300px;" ng-click="model.$save({type: 'user'})">Submit</button>
+</div>
