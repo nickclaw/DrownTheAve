@@ -50,7 +50,7 @@ router
 // search
 router.post('/crud/:type/search', stripFind, function(req, res, next) {
     basicSearch(db[type], req.body)
-        .populate('_bar_id') // only does anything on specials
+        .populate('bar') // only does anything on specials
         .exec()
         .then(function(bars) {
             res.send(bars);

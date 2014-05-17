@@ -83,14 +83,16 @@ userSchema.methods.link = function(user, callback) {
 
 userSchema.methods.toJSON = function() {
     return {
-        id: this._id,
+        _id: this._id,
         isAdmin: this.isAdmin,
         twitter: !!this._twitter_id,
         facebook: !!this._facebook_id,
         google: !!this._google_id,
+
         local: {
             username: this.local && this.local.username ? this.local.username : ""
         },
+        
         profile: {
             firstName: this.profile.firstName,
             lastName: this.profile.lastName,
@@ -102,5 +104,10 @@ userSchema.methods.toJSON = function() {
     };
 }
 
+userSchema.methods.fromJSON = function(obj) {
+    return obj;
+}
 
 module.exports = mongoose.model('User', userSchema);
+
+module.exports.fromJSON = userSchema.methods.fromJSON;

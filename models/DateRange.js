@@ -24,4 +24,10 @@ dateRangeSchema.methods.toJSON = function() {
     };
 }
 
+dateRangeSchema.methods.fromJSON = function(obj) {
+    return obj;
+}
+
 module.exports = mongoose.model('DateRange', dateRangeSchema);
+
+module.exports.fromJSON = dateRangeSchema.methods.fromJSON;

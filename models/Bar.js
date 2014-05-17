@@ -59,7 +59,7 @@ barSchema.methods.isOpen = function(date) {
  */
 barSchema.methods.toJSON = function() {
     return {
-        id: this._id,
+        _id: this._id,
         name: this.name,
         website: this.website,
         location: this.location,
@@ -75,4 +75,10 @@ barSchema.methods.toJSON = function() {
     };
 }
 
+barSchema.methods.fromJSON = function(obj) {
+    return obj;
+}
+
 module.exports = mongoose.model('Bar', barSchema);
+
+module.exports.fromJSON = barSchema.methods.fromJSON;
