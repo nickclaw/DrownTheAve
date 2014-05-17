@@ -53,22 +53,34 @@ directives
                     height: "@cHeight"
                 },
                 link: function($scope, elem, attrs) {
-                    var canvas = elem.children().attr({width: $scope.width, height: $scope.height})[0],
-                        ctx = canvas.getContext('2d'),
-                        lastPos = null,
-                        img = null,
-                        xOff = 0, yOff = 0;
+                    var canvas = elem.children().attr({ // get canvas and set size
+                            width: $scope.width,
+                            height: $scope.height
+                        })[0],
+                        ctx = canvas.getContext('2d');  // get canvas context
 
+                    var lastPos = null,             // [x,y] array
+                        img = null,                 // Image
+                        xOff = 0, yOff = 0;         // left/top offsets in pixels
+
+                    $scope.scale = 1;               // unused so far
+
+                    // listen for intial picture load
                     $scope.$watch('model.profile.picture', function(value) {
                         value && loadDataUrl(value);
                     });
 
+
+                    // add event listeners
                     elem
+                        // for drag/drop border
                         .bind('dragenter', function(){elem.addClass('dragging')})
                         .bind('dragleave drop', function(){elem.removeClass('dragging')})
-                        .bind('dragover', function(evt) {
-                            evt.preventDefault();
-                        })
+
+                        // keep page from just loading image on drop
+                        .bind('dragover', function(evt) {evt.preventDefault();})
+
+                        // when file is dropped, read file and load result
                         .bind('drop', function(evt) {
                             evt.preventDefault();
                             var file = evt.dataTransfer.files[0],
@@ -77,12 +89,13 @@ directives
                             if (!file || file.type.indexOf('image') < 0) return false;
 
                             reader.addEventListener('load', function() {
-                                xOff = yOff = 0;
                                 loadDataUrl(reader.result);
                             });
 
                             reader.readAsDataURL(file);
                         })
+
+                        // for grabbing image
                         .bind('mousedown', function(evt) {
                             lastPos = [evt.pageX, evt.pageY];
                             elem.addClass('grabbing');
@@ -93,14 +106,18 @@ directives
                         })
                         .bind('mousemove', function(evt) {
                             var x = evt.pageX,
-                                y = evt.pageY;
+                                y = evt.pageY,
+                                minX = $scope.width - img.naturalWidth,
+                                minY = $scope.height - img.naturalHeight;
 
                             if (lastPos) {
                                 var dx = x - lastPos[0],
                                     dy = y - lastPos[1];
 
-                                xOff = xOff + dx;
-                                yOff = yOff + dy;
+                                xOff = Math.max(Math.min(xOff + dx, 0), minX);
+                                yOff = Math.max(Math.min(yOff + dy, 0), minY);
+
+                                console.log(dx, xOff)
 
                                 render();
 
@@ -108,14 +125,27 @@ directives
                             }
                         });
 
+                    /* HELPER FUNCTIONS */
+                    // have to be in this scope to keep references
+                    // to various variables
+
+                    /**
+                     * Loads a base64 url into an image, resets render options,
+                     * then renders the image
+                     */
                     function loadDataUrl(url) {
                         img = new Image();
                         img.addEventListener('load', function() {
+                            xOff = yOff = 0;
                             render(img);
                         });
                         img.src = url;
                     }
 
+                    /**
+                     * Actually renders the image ontot he canvas, then
+                     * updates ng-model value
+                     */
                     function render() {
                         img && ctx.drawImage(img, xOff, yOff, img.naturalWidth, img.naturalHeight);
                         $scope.model.profile.picture = canvas.toDataURL();
