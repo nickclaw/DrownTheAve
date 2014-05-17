@@ -1,75 +1,16 @@
 var express = require('express'),            // server
     mongoose = require('mongoose'),          // database
     passport = require('passport'),          // sign in
-    compress = require('compression'),       // for serving static files
-    favicon = require('static-favicon'),     // for serving favicon
-    bodyParser = require('body-parser'),     // for parsing request json
-    cookieParser = require('cookie-parser'), // for cookies
-    session = require('cookie-session'),     // stores storing session info in cookies
-    sass = require('node-sass'),             // for compiling sass
-    jade = require('jade'),                  // for compiling jade
-    em = require('express-mongoose'),        // adds cool functions to express
-    path = require('path'),                  // util for handling url paths
     async = require('async');                // util for asynchronous flow
 
-
-/********* ENV *********/
-require('./config/env.js')();
-
-
-/********* EXPRESS *********/
-// initialize app
+// initialize things
 var app = express();
-app.set('port', process.env.PORT || 8080);
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
-// add middleware
-app.use('/static/styles', sass.middleware({
-    src: path.join(__dirname, 'public/styles/scss'),
-    dest: path.join(__dirname, 'public/styles'),
-    outputStyle: 'compressed',
-    force: true
-}));
-app.use(bodyParser());
-app.use(cookieParser()); // cookie must be before session
-app.use(session({ // session must be before passport
-    key: 'drowntheave',
-    secret: 'thisissupertopsecret',
-    cookie: {maxAge: 1000 * 60 * 60 * 24 * 14}
-}));
-app.use(compress());
-app.use(favicon(path.join(__dirname, 'public/favicon.ico')));
-
-
-/********* PASSPORT ********/
-// configure passport
+require('./config/env.js')();
 require('./config/passport.js')(passport);
+require('./config/express.js')(app, passport);
+require('./config/mongoose.js')(mongoose);
 
-// add passport middleware
-app.use(passport.initialize());
-app.use(passport.session());
-
-
-/********* ROUTES *********/
-require('./routers/pageRouter.js')(app, passport);
-require('./routers/authRouter.js')(app, passport);
-require('./routers/apiRouter.js')(app, passport);
-require('./routers/adminRouter.js')(app, passport);
-app.use('/static', express.static(path.join(__dirname, 'public')));
-
-// 404 error handler
-// has to be the last app.use statement
-app.use(function(req, res) {
-    res.status(404);
-    res.render('error', {
-        code: 404,
-        message: 'That page could not be found.'
-    });
-});
-
-
-/***** START *****/
+// start
 async.parallel([
 
     // start mongoose
