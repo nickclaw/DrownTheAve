@@ -2,19 +2,6 @@ var mongoose = require('mongoose'),
     Special = require('./Special.js'),
     c = require('../config/constants.js');
 
-// for storing the open hours each day
-hoursSchema = new mongoose.Schema({
-    start: Number,
-    end: Number
-});
-
-hoursSchema.methods.toJSON = function() {
-    return {
-        start: this.start,
-        end: this.end
-    };
-}
-
 var barSchema = new mongoose.Schema({
     name: String,
     website: String,
