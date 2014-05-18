@@ -83,16 +83,14 @@ userSchema.methods.link = function(user, callback) {
 
 userSchema.methods.toJSON = function() {
     return {
-        _id: this._id,
+        id: this._id,
         isAdmin: this.isAdmin,
         twitter: !!this._twitter_id,
         facebook: !!this._facebook_id,
         google: !!this._google_id,
-
-        local: {
-            username: this.local && this.local.username ? this.local.username : ""
-        },
         
+        username: this.local && this.local.username ? this.local.username : "",
+
         profile: {
             firstName: this.profile.firstName,
             lastName: this.profile.lastName,
@@ -100,7 +98,7 @@ userSchema.methods.toJSON = function() {
             picture: this.profile.picture,
             new: this.profile.new
         },
-        location: []
+        location: this.location
     };
 }
 

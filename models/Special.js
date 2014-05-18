@@ -13,7 +13,7 @@ var specialSchema = new mongoose.Schema({
  */
 specialSchema.methods.toJSON = function() {
     var obj = {
-        _id: this._id,
+        id: this._id,
         bar: this.bar,
         barName: null, // filled in later if applicable
         deal: this.deal,

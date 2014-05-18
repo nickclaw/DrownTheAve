@@ -18,6 +18,8 @@ directives
                         type: $scope.type,
                     });
 
+                    b = $scope.models;
+
                     $scope.loading = false;
                     $scope.loaded = false;
 
@@ -33,10 +35,6 @@ directives
                             $scope.loading = false;
                         });
                     }
-
-                    _.defaults($scope, {
-                        models: []
-                    });
                 }
             }
         }

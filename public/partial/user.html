@@ -24,11 +24,11 @@
 <div class="list-item cell">
     <label>
         Latitude:
-        <input ng-model="model.location[1]"></input>
+        <input type="number" ng-model="model.location[1]"></input>
     </label>
     <label>
         Longitude:
-        <input ng-model="model.location[0]"></input>
+        <input type="number" ng-model="model.location[0]"></input>
     </label>
     <button style="left:300px;" ng-click="model.$save({type: 'user'})">Submit</button>
 </div>

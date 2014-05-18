@@ -1,5 +1,5 @@
 var mongoose = require('mongoose'),
-    Special = require('./Special.js'),
+    Hours = require('./Hours.js'),
     c = require('../config/constants.js');
 
 var barSchema = new mongoose.Schema({
@@ -14,13 +14,13 @@ var barSchema = new mongoose.Schema({
     },
 
     hours: {
-        "0": {type: [hoursSchema], default: []},
-        "1": {type: [hoursSchema], default: []},
-        "2": {type: [hoursSchema], default: []},
-        "3": {type: [hoursSchema], default: []},
-        "4": {type: [hoursSchema], default: []},
-        "5": {type: [hoursSchema], default: []},
-        "6": {type: [hoursSchema], default: []}
+        "0": {type: [Hours], default: []},
+        "1": {type: [Hours], default: []},
+        "2": {type: [Hours], default: []},
+        "3": {type: [Hours], default: []},
+        "4": {type: [Hours], default: []},
+        "5": {type: [Hours], default: []},
+        "6": {type: [Hours], default: []}
     }
 });
 
@@ -46,7 +46,7 @@ barSchema.methods.isOpen = function(date) {
  */
 barSchema.methods.toJSON = function() {
     return {
-        _id: this._id,
+        id: this._id,
         name: this.name,
         website: this.website,
         location: this.location,
