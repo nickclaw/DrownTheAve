@@ -7,7 +7,7 @@ directives
 
             return {
                 restrict: 'E',
-                templateUrl: '/static/partial/item-list.html',
+                templateUrl: '/static/partial/directive/item-list.html',
                 scope: {
                     template: "@",
                     options: "=",
@@ -152,3 +152,82 @@ directives
             }
         }
     ])
+
+
+    .directive('hoursPicker', [
+        function() {
+
+            return {
+                restrict: 'E',
+                templateUrl: '/static/partial/directive/hours-picker.html',
+                scope: {
+                    data: '=ngModel'
+                },
+                link: function($scope, elem, attrs) {
+                    var mouseDown = false,
+                        picker = elem.children()[0];
+
+                    $scope.viewer = '';
+
+                    elem
+                        .bind('mousedown', function(evt) {
+                            mouseDown = true;
+                        })
+                        .bind('mouseup', function(evt) {
+                            mouseDown = false;
+                        })
+                        .bind('mouseover mousedown', function(evt) {
+                            if (mouseDown) {
+                                evt.target.classList.toggle('selected');
+                                calculateHours();
+                            }
+                        })
+                        .bind('mousemove', function(evt) {
+                            var day = (["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"])[evt.target.getAttribute('data-day')],
+                                start = parseInt(evt.target.getAttribute('data-hour')),
+                                end = start + 1,
+                                startString = start % 12 + (start < 12 ? "am" : "pm"),
+                                endString = end % 12 + (end < 12 ? "am" : "pm");
+
+                            $scope.viewer = day && startString ? day + " " + startString + ' - ' + endString : " ";
+                            $scope.$digest();
+                        });
+
+
+                    function calculateHours() {
+                         _.each(picker.children, function(day) {
+                            var hours = [],
+                                start = null,
+                                end = null;
+
+                            _.each(day.children, function(hour, index) {
+                                if (hour.classList.contains('selected') && index < day.children.length - 1) {
+                                    if (start === null) start = parseInt(hour.getAttribute('data-hour'));
+                                    end = parseInt(hour.getAttribute('data-hour'));
+                                } else if (start !== null) {
+                                    hours.push({start: start * 3600000, end: (end + 1) * 3600000});
+                                    start = end = null;
+                                }
+                            });
+
+                            $scope.data[day.getAttribute('data-day')] = hours;
+                        });
+                    }
+
+                    $scope.$watch('data', function(data) {
+                        _.each(data, function(day, index) {
+                            _.each(day, function(range) {
+                                var start = ~~(range.start / 3600000),
+                                    end = ~~(range.end / 3600000) - 1;
+
+                                    for (var i = start; i <= end; i++) {
+                                        picker.children[index].children[i].classList.add('selected');
+                                    }
+                            });
+                        });
+                    });
+                }
+            }
+        }
+    ])
+;

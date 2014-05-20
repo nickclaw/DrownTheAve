@@ -8,7 +8,7 @@ mongoose.connect('mongodb://127.0.0.1/drowntheave', function(err) {
     if (err) throw err;
 
     Bar.create(bars, function(err, bars) {
-        console.log(bars);
+        console.log(arguments);
     });
 
 });

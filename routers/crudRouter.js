@@ -27,6 +27,7 @@ router
         .get(function(req, res, next) {
             db['get'+req.type.modelName](req.query.id, function(err, model) {
                 if (err) return next(err);
+                if (!model) return next('no model');
                 res.send(model);
             });
         })

@@ -10,7 +10,7 @@ var dateRangeSchema = new mongoose.Schema({
 });
 
 /**
- * Overwrite JSOn output
+ * Overwrite JSON output
  * Don't care about id because this will always be nested
  */
 dateRangeSchema.methods.toJSON = function() {
