@@ -50,7 +50,7 @@ router
 
         // delete
         .delete(function(req, res, next) {
-            db['delete'+req.type.modelName](req.body.id, function(err, model) {
+            db['delete'+req.type.modelName](req.query.id, function(err, model) {
                 if (model) return res.send(model);
                 next(err);
             });

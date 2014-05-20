@@ -3,11 +3,11 @@ var router = require('express').Router(),
     util = require('./util.js');
 
 router
-    .get('/local/', util.unauth, function(req, res) {
+    .get('/local', util.unauth, function(req, res) {
         res.render('login')
     })
     .get('/local/link', util.auth, passport.authenticate('local-login'))
-    .post('/local/', util.unauth, function(req, res, next) {
+    .post('/local', util.unauth, function(req, res, next) {
 
         // wrap passport.authenticate in a function
         // so we can dynamically set the successRedirect

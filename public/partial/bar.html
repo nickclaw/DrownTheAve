@@ -1,3 +1,9 @@
+<div class="cell title">
+    <h1>Edit Bar</h1>
+
+    <a style="left:200px;" href="/admin/bar/{{model.id}}/delete">delete</a>
+    <button style="left:200px;" ng-click="submit()">submit</button>
+</div>
 <div class="list-item cell">
     <hours-picker ng-model="model.hours" />
 </div>
@@ -22,8 +28,7 @@
         Longitude:
         <input ng-model="model.location[0]" />
     </label>
-    <button style="left:300px;" ng-click="model.$save({type: 'bar'})">Submit</button>
 </div>
 
-<h1 style="padding:5px 20px;" class="cell">Specials</h1>
+<h2 style="padding:5px 20px;" class="cell">Specials</h2>
 <item-list template="/static/partial/item/special-item.html" type="special" options="" />

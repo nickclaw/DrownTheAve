@@ -12,11 +12,21 @@ app.config([
         $locationProvider.html5Mode(true).hashPrefix('!');
 
         $routeProvider
+            .when('/:type/create', {
+                templateUrl: function(attr) {
+                    return '/static/partial/' + attr.type + '.html';
+                },
+                controller: 'CreateItemController'
+            })
             .when('/:type/:id', {
                 templateUrl: function(attr) {
                     return '/static/partial/' + attr.type + '.html';
                 },
-                controller: 'ItemController'
+                controller: 'EditItemController'
+            })
+            .when('/:type/:id/delete', {
+                controller: 'DeleteItemController',
+                templateUrl: '/static/partial/collection.html'
             })
             .when('/:type', {
                 templateUrl: '/static/partial/collection.html',

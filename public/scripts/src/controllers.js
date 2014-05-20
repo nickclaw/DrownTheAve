@@ -4,23 +4,50 @@ controllers
     .controller('CollectionController', [
         '$scope',
         '$routeParams',
-        function($scope, $routeParams) {
-            $scope.itemUrl = "/static/partial/item/" + $routeParams.type + "-item.html";
+        function($scope, params) {
+            $scope.itemUrl = "/static/partial/item/" + params.type + "-item.html";
             $scope.listOptions = {};
-            $scope.type = $routeParams.type;
+            $scope.type = params.type;
         }
     ])
-    .controller('ItemController', [
+    .controller('EditItemController', [
         '$scope',
         '$routeParams',
         'Item',
-        function($scope, $routeParams, Item) {
+        function($scope, params, Item) {
             $scope.model = Item.get({
-                id: $routeParams.id,
-                type: $routeParams.type
+                id: params.id,
+                type: params.type
             });
 
-            scope = $scope;
-
+            $scope.submit = $scope.model.$save.bind($scope.model);
         }
-    ]);
+    ])
+    .controller('CreateItemController', [
+        '$scope',
+        '$routeParams',
+        'Item',
+        function($scope, params, Item) {
+            $scope.model = new Item({
+                type: params.type
+            });
+
+            $scope.submit = $scope.model.$create.bind($scope.model);
+        }
+    ])
+    .controller('DeleteItemController', [
+        '$location',
+        '$routeParams',
+        'Item',
+        function($location, params, Item) {
+            Item.delete({
+                id: params.id,
+                type: params.type
+            }, function() {
+                $location.path('/' + params.type);
+            }, function() {
+                $location.path('/' + params.type);
+            });
+        }
+    ])
+;

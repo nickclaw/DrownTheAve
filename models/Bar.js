@@ -44,7 +44,6 @@ barSchema.methods.isOpen = function(date) {
  * Overwrite json output
  */
 barSchema.methods.toJSON = function() {
-    console.log(this.hours);
     return {
         id: this._id,
         name: this.name,
