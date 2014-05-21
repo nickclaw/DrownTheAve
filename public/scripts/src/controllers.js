@@ -20,7 +20,7 @@ controllers
                 type: params.type
             });
 
-            $scope.submit = $scope.model.$create.bind(
+            $scope.submit = $scope.model.$save.bind(
                 $scope.model,
                 {type: params.type}
             );
@@ -43,8 +43,6 @@ controllers
                     $location.path('/' + params.type + '/' + $scope.model.id);
                 }
             );
-
-             b = $scope;
         }
     ])
     .controller('DeleteItemController', [
