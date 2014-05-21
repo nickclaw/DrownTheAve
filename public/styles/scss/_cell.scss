@@ -9,14 +9,15 @@
     text-decoration: none;
 
     &.title {
+        font-size: 14pt;
         height: 50px;
-
-        * {
-            display: inline;
-        }
+        line-height: 50px;
+        text-align: right;
+        padding: 0 15px;
 
         h1,h2,h3 {
-
+            position: absolute;
+            left: 15px;
         }
     }
 }

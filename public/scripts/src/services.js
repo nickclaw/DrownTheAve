@@ -15,6 +15,7 @@ resources.factory('Item', [
                 save: {method: 'PUT'},
                 create: {method: 'POST'},
                 search: {method: 'POST', url:'/api/crud/:type/search', isArray: true},
+                default: {method: 'GET', url:'/api/crud/:type/default'}
             }
         )
     }

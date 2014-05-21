@@ -20,19 +20,31 @@ controllers
                 type: params.type
             });
 
-            $scope.submit = $scope.model.$save.bind($scope.model);
+            $scope.submit = $scope.model.$create.bind(
+                $scope.model,
+                {type: params.type}
+            );
         }
     ])
     .controller('CreateItemController', [
         '$scope',
+        '$location',
         '$routeParams',
         'Item',
-        function($scope, params, Item) {
-            $scope.model = new Item({
+        function($scope, $location, params, Item) {
+            $scope.model = Item.default({
                 type: params.type
             });
 
-            $scope.submit = $scope.model.$create.bind($scope.model);
+            $scope.submit = $scope.model.$create.bind(
+                $scope.model,
+                {type: params.type},
+                function() {
+                    $location.path('/' + params.type + '/' + $scope.model.id);
+                }
+            );
+
+             b = $scope;
         }
     ])
     .controller('DeleteItemController', [

@@ -21,6 +21,9 @@ router
                 res.send(models);
             });
     })
+    .get('/crud/:type/default', function(req, res, next) {
+        res.send(new req.type());
+    })
     .route('/crud/:type')
 
         // retrieve

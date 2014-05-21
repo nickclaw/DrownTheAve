@@ -1,6 +1,7 @@
 var mongoose = require('mongoose'),
     Bar = require('./Bar.js'),
-    bcrypt = require('bcrypt');
+    bcrypt = require('bcrypt'),
+    c = require('../config/constants.js');;
 
 
 var userSchema = new mongoose.Schema({
@@ -27,7 +28,8 @@ var userSchema = new mongoose.Schema({
     },
     location: {
         type: [Number],
-        index: '2dsphere'
+        index: '2dsphere',
+        default: c.THE_AVE
     }
 });
 
@@ -88,7 +90,7 @@ userSchema.methods.toJSON = function() {
         twitter: !!this._twitter_id,
         facebook: !!this._facebook_id,
         google: !!this._google_id,
-        
+
         username: this.local && this.local.username ? this.local.username : "",
 
         profile: {

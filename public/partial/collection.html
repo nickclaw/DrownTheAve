@@ -21,4 +21,8 @@
 
     <button style="left:300px;" ng-click="load()">search</button>
 </div>
+<div class="cell title">
+    <h2>Browse {{type}}s</h2>
+    <a href="/admin/{{type}}/create">create {{type}}</a>
+</div>
 <item-list template="{{itemUrl}}" options="listOptions" type="{{type}}"/>

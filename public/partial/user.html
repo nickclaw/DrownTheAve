@@ -1,3 +1,9 @@
+<div class="cell title">
+    <h1>Edit User</h1>
+    <a href="/admin/user/{{model.id}}/delete">delete</a>
+    <button ng-click="submit()">Submit</button>
+</div>
+
 <div class="list-item cell">
     <image-drop ng-model="model" c-width="100" c-height="100"/>
 </div>
@@ -30,5 +36,4 @@
         Longitude:
         <input type="number" ng-model="model.location[0]"></input>
     </label>
-    <button style="left:300px;" ng-click="model.$save({type: 'user'})">Submit</button>
 </div>
