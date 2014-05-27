@@ -1,12 +1,5 @@
 var mongoose = require('mongoose'),
-    Special = require('./Special.js'),
     c = require('../config/constants.js');
-
-// for storing the open hours each day
-hoursSchema = new mongoose.Schema({
-    start: Number,
-    end: Number
-});
 
 var barSchema = new mongoose.Schema({
     name: String,
@@ -20,13 +13,13 @@ var barSchema = new mongoose.Schema({
     },
 
     hours: {
-        0: {type: [hoursSchema], default: []},
-        1: {type: [hoursSchema], default: []},
-        2: {type: [hoursSchema], default: []},
-        3: {type: [hoursSchema], default: []},
-        4: {type: [hoursSchema], default: []},
-        5: {type: [hoursSchema], default: []},
-        6: {type: [hoursSchema], default: []}
+        "0": {type: [{start: Number,end: Number}], default: []},
+        "1": {type: [{start: Number,end: Number}], default: []},
+        "2": {type: [{start: Number,end: Number}], default: []},
+        "3": {type: [{start: Number,end: Number}], default: []},
+        "4": {type: [{start: Number,end: Number}], default: []},
+        "5": {type: [{start: Number,end: Number}], default: []},
+        "6": {type: [{start: Number,end: Number}], default: []}
     }
 });
 
@@ -41,7 +34,7 @@ barSchema.methods.isOpen = function(date) {
         milli = Math.floor(date.valueOf() % 1000);
     for (var i = 0; i < ranges.length; i++) {
         if (ranges[i].start ) {
-            
+
         }
     }
     return false;
@@ -53,11 +46,25 @@ barSchema.methods.isOpen = function(date) {
 barSchema.methods.toJSON = function() {
     return {
         id: this._id,
-        start: this.start,
-        end: this.end,
         name: this.name,
-        location: this.location
+        website: this.website,
+        location: this.location,
+        hours: {
+            "0": this.hours["0"],
+            "1": this.hours["1"],
+            "2": this.hours["2"],
+            "3": this.hours["3"],
+            "4": this.hours["4"],
+            "5": this.hours["5"],
+            "6": this.hours["6"]
+        }
     };
 }
 
+barSchema.methods.fromJSON = function(obj) {
+    return obj;
+}
+
 module.exports = mongoose.model('Bar', barSchema);
+
+module.exports.fromJSON = barSchema.methods.fromJSON;

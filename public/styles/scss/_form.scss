@@ -1,0 +1,41 @@
+label {
+    width: 100%;
+    display: block;
+    font-size: 13pt;
+    margin: 10px 0;
+    vertical-align: top;
+
+    input, select, textarea {
+        font-size: 13pt;
+        width: 300px;
+        right: 0px;
+    }
+
+    textarea {
+        height: 150px;
+        resize: none;
+    }
+}
+
+
+button {
+    font-size: 16pt;
+    padding: 5px;
+    box-shadow:inset 0px 0px 30px -50px #ffffff;
+    background-color:#ededed;
+    border-radius: 5px;
+    border:1px solid #dcdcdc;
+    color:#777777;
+    font-weight:bold;
+    width:100px;
+    text-shadow:1px 1px 0px #ffffff;
+
+    &:hover {
+        background-color:#dfdfdf;
+    }
+
+    &:active {
+        position:relative;
+        top:1px;
+    }
+}

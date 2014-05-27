@@ -1,0 +1,20 @@
+@import "default";
+@import "page";
+@import "list";
+@import "cell";
+@import "form";
+@import "image_drop";
+@import "hours";
+
+#sidebar {
+    .list {
+        position: fixed;
+        top: 0px;
+        width: 200px;
+    }
+
+    .list-item {
+        min-height: 0px;
+        padding: 13px 30px;
+    }
+}

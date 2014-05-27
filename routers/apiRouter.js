@@ -1,14 +1,9 @@
-var db = require('../database.js');
+var router = require('express').Router(),
+    db = require('../database.js'),
+    util = require('./util.js');
 
-module.exports = function(app, passport) {
-
-    /**
-     * Retrieves all bars within a certain distance
-     * @param {Number} distance defaults to 1 mile
-     * @param {Array} lat/long defaults to the ave
-     * @return {Array} of bars within range
-     */
-    app.get('/api/getBars', function(req, res) {
+router
+    .get('/getBars', function(req, res) {
 
         // update session with query results
         if (req.query.distance) req.session.distance = req.query.distance;
@@ -18,17 +13,13 @@ module.exports = function(app, passport) {
             if (err) return res.send('error');
             res.send(bars);
         });
-    });
-
-    /**
-     * Gets current specials near you
-     * @return {Array} of specials nearby
-     */
-    app.get('/api/getSpecials', function(req, res) {
+    })
+    .get('/getSpecials', function(req, res) {
         db.currentDeals({
             // options
         }, function(err, deals) {
             res.send(deals);
         });
-    });
-}
+    })
+
+module.exports = router;

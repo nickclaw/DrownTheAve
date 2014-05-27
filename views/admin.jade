@@ -1,0 +1,26 @@
+doctype html
+html(ng-app="app")
+    head
+        base(href="/admin/")
+        link(href="/static/styles/admin.css" rel="stylesheet" type="text/css")
+        script(src="/static/scripts/lib/underscore.js" type="text/javascript")
+        script(src="/static/scripts/lib/angular.js" type="text/javascript")
+        script(src="/static/scripts/lib/angular-route.js" type="text/javascript")
+        script(src="/static/scripts/lib/angular-resource.js" type="text/javascript")
+        script(src="/static/scripts/src/app.js" type="text/javascript")
+        script(src="/static/scripts/src/controllers.js" type="text/javascript")
+        script(src="/static/scripts/src/directives.js" type="text/javascript")
+        script(src="/static/scripts/src/services.js" type="text/javascript")
+
+    body
+        div(id="container")
+            div(id="sidebar")
+                div(class="list")
+                    a(class="cell list-item" href="/") home
+                    a(class="cell list-item" href="/admin") admin
+                    a(class="cell list-item" href="/admin/bar") bars
+                    a(class="cell list-item" href="/admin/special") specials
+                    a(class="cell list-item" href="/admin/user") users
+                    a(class="cell list-item" href="/auth/logout") logout
+
+            div(id="content" ng-view)

@@ -1,0 +1,19 @@
+#container {
+    width: 800px;
+    font-size: 0px;
+    margin: 0 auto;
+
+    #sidebar, #content {
+        display: inline-block;
+        font-size: 14pt;
+        vertical-align: top;
+    }
+
+    #sidebar {
+        width: 200px;
+    }
+
+    #content {
+        width: 600px;
+    }
+}

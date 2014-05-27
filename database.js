@@ -166,4 +166,51 @@ var db = module.exports = {
             });
         });
     }
-}
+};
+
+/**
+ * Add simple CRUD for the models
+ */
+["Bar", "Special", "User"].forEach(function(model, index) {
+
+    /**
+     * Retrieve a model
+     * @param {String} id
+     * @param {Function?} callback
+     * @return {Promise}
+     */
+    db['get' + model] = function(id, callback) {
+        return db[model].findById(id).exec(callback);
+    }
+
+    /**
+     * Delete a model
+     * @param {String} id
+     * @param {Function?} callback
+     * @return {Promise}
+     */
+    db['delete' + model] = function(id, callback) {
+        return db[model].findByIdAndRemove(id).exec(callback);
+    }
+
+    /**
+     * Update a model, only changing given parameters
+     * @param {String} id
+     * @param {Function?} callback
+     * @return {Promise}
+     */
+    db['update' + model] = function(id, data, callback) {
+        return db[model].findByIdAndUpdate(id, {$set: data}).exec(callback);
+    }
+
+    /**
+     * Create a model
+     * @param {String} id
+     * @param {Function?} callback
+     * @return {Promise}
+     */
+    db['create' + model] = function(data, callback) {
+        return db[model].create(data, callback);
+    }
+
+});

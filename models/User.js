@@ -1,6 +1,7 @@
 var mongoose = require('mongoose'),
     Bar = require('./Bar.js'),
-    bcrypt = require('bcrypt');
+    bcrypt = require('bcrypt'),
+    c = require('../config/constants.js');;
 
 
 var userSchema = new mongoose.Schema({
@@ -27,7 +28,8 @@ var userSchema = new mongoose.Schema({
     },
     location: {
         type: [Number],
-        index: '2dsphere'
+        index: '2dsphere',
+        default: c.THE_AVE
     }
 });
 
@@ -83,10 +85,29 @@ userSchema.methods.link = function(user, callback) {
 
 userSchema.methods.toJSON = function() {
     return {
-        profile: this.profile,
+        id: this._id,
+        isAdmin: this.isAdmin,
+        twitter: !!this._twitter_id,
+        facebook: !!this._facebook_id,
+        google: !!this._google_id,
+
+        username: this.local && this.local.username ? this.local.username : "",
+
+        profile: {
+            firstName: this.profile.firstName,
+            lastName: this.profile.lastName,
+            email: this.profile.email,
+            picture: this.profile.picture,
+            new: this.profile.new
+        },
         location: this.location
     };
 }
 
+userSchema.methods.fromJSON = function(obj) {
+    return obj;
+}
 
 module.exports = mongoose.model('User', userSchema);
+
+module.exports.fromJSON = userSchema.methods.fromJSON;
