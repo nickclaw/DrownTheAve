@@ -4,6 +4,6 @@ public/lib
 
 npm-debug.log
 
-public/styles/*.css
+public/style/*.css
 
 data

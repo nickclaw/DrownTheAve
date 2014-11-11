@@ -4,7 +4,7 @@ var router = require('express').Router(),
 
 router
     .get('', isNew, function(req, res) {
-        res.render('home', {
+        res.render('index', {
             user: req.user,
             bars: db.getBars(req),
             specials: db.currentDeals()

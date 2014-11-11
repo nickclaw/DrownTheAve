@@ -1,0 +1,23 @@
+doctype html
+html(ng-app="app")
+    head
+        link(href="/static/lib/angular-material/angular-material.css" type="text/css" rel="stylesheet")
+        link(href="/static/lib/angular/angular-csp.css" type="text/css" rel="stylesheet")
+        link(href="/static/lib/angular-material/themes/default-theme.css" type="text/css" rel="stylesheet")
+        link(href="/static/style/index.css" type="text/css" rel="stylesheet")
+
+    body(layout="horizontal")
+        md-sidenav(layout="vertical" is-locked-open="$media('md')" class="md-sidenav-left md-whiteframe-z2")
+
+
+        script(src="/static/lib/lodash/dist/lodash.js")
+        script(src="/static/lib/bluebird/js/browser/bluebird.js")
+        script(src="/static/lib/hammerjs/hammer.js")
+        script(src="/static/lib/angular/angular.js")
+        script(src="/static/lib/angular-animate/angular-animate.js")
+        script(src="/static/lib/angular-aria/angular-aria.js")
+        script(src="/static/lib/angular-material/angular-material.js")
+        script(src="/static/lib/angular-resource/angular-resource.js")
+        script(src="/static/lib/angular-route/angular-route.js")
+        
+        script(src="/static/script/index.js")

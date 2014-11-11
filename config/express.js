@@ -5,7 +5,7 @@ var statics = require('express').static,
     cookieParser = require('cookie-parser'), // for cookies
     session = require('cookie-session'),     // stores storing session info in cookies
     path = require('path'),                  // util for handling url paths
-    sass = require('node-sass'),             // for compiling sass
+    sass = require('node-sass-middleware'),  // for compiling sass
     router = require('../routers/router.js');
 
 module.exports = function(app, passport) {
@@ -28,9 +28,9 @@ module.exports = function(app, passport) {
     app.use(passport.session());
 
     // routes
-    app.use('/static/styles', sass.middleware({
-        src: path.join(__dirname, '../public/styles/scss'),
-        dest: path.join(__dirname, '../public/styles'),
+    app.use('/static/style', sass({
+        src: path.join(__dirname, '../public/style'),
+        dest: path.join(__dirname, '../public/style'),
         outputStyle: 'compressed',
         force: true
     }));
