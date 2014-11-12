@@ -1,6 +1,6 @@
 var async = require('async'),
     mongoose = require('mongoose'),
-    Bar = require('./models/Bar.js');
+    Bar = require('./src/database/models/Bar.js');
 
 var bars = require('./data/bars.json').data;
 
