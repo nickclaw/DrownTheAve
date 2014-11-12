@@ -4,7 +4,7 @@ var GoogleStrategy = require('passport-google').Strategy,
     url = require('url');
 
 module.exports = new GoogleStrategy({
-    returnUrl: 'http://localhost:8080/auth/google/return',
+    returnURL: 'http://localhost:8080/auth/google/return',
     realm: 'http://localhost:8080',
     passReqToCallback: true
 }, function(req, idUrl, profile, done) {

@@ -1,5 +1,7 @@
 var db = require('../database/Database'),
-    passport = require('koa-passport');
+    passport = require('koa-passport'),
+    compose = require('koa-compose'),
+    session = require('koa-session');
 
 module.exports = new Auth();
 
@@ -20,8 +22,13 @@ function Auth() {
 Auth.prototype.middleware = function() {
     var auth = this;
 
-    return function *(next) {
-        this.auth = auth;
-        yield next;
-    }
+    return compose([
+        session(),
+        passport.initialize(),
+        passport.session(),
+        function *(next) {
+            this.auth = auth;
+            yield next;
+        }
+    ]);
 }

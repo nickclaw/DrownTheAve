@@ -1,6 +1,6 @@
 var FacebookStrategy = require('passport-facebook').Strategy
     db = require('../../database/Database'),
-    User = db.User,;
+    User = db.User;
 
 module.exports = new FacebookStrategy({
     clientID: "ID_GOES_HERE",

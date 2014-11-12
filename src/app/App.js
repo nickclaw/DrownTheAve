@@ -10,12 +10,15 @@ var koa = require('koa'),
 // routes
 var staticRoutes = require('./routes/static'),
     apiRoutes = require('./routes/api'),
+    authRoutes = require('./routes/auth'),
     publicRoutes = require('./routes/public');
 
 module.exports = new App();
 
 function App() {
     var app = this.app = koa();
+
+    app.keys = ['top secret'];
 
     // debugging
     app.use(function *(next) {
@@ -28,12 +31,13 @@ function App() {
         console.log(Date.now() - start + 'ms');
     });
 
-    app.use(favicon(path.join(__dirname, '../../public/favicon.ico')));
     app.use(db.middleware());
     app.use(auth.middleware());
 
+    app.use(favicon(path.join(__dirname, '../../public/favicon.ico')));
     app.use(mount('/static', staticRoutes));
     app.use(mount('/api', apiRoutes));
+    app.use(mount('/auth', authRoutes));
     //app.use(mount(publicRoutes));
 }
 
