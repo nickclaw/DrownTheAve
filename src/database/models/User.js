@@ -1,7 +1,7 @@
 var mongoose = require('mongoose'),
     Bar = require('./Bar.js'),
     bcrypt = require('bcrypt'),
-    c = require('../config/constants.js');;
+    c = require('../../../config/constants.js');;
 
 
 var userSchema = new mongoose.Schema({

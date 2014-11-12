@@ -1,5 +1,5 @@
 var mongoose = require('mongoose'),
-    c = require('../config/constants.js');
+    c = require('../../../config/constants.js');
 
 var barSchema = new mongoose.Schema({
     name: String,
