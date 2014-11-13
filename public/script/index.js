@@ -1,5 +1,15 @@
 angular.module('app', [
-    'ngMaterial',
-    'ngRoute',
-    'ngResource'
-]);
+        'ngMaterial',
+        'ngRoute',
+        'utils',
+        'page.home'
+    ])
+    .config([
+        '$locationProvider',
+        '$routeProvider',
+        function($locationProvider, $routeProvider) {
+            $locationProvider
+                .html5Mode(false)
+                .hashPrefix('!');
+        }
+    ])

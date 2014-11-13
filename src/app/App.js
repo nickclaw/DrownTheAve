@@ -5,7 +5,8 @@ var koa = require('koa'),
     auth = require('../auth/Auth'),
     _ = require('lodash'),
     Promise = require('bluebird'),
-    mount = require('koa-mount');
+    mount = require('koa-mount'),
+    jade = require('koa-jade');
 
 // routes
 var staticRoutes = require('./routes/static'),
@@ -35,10 +36,16 @@ function App() {
     app.use(auth.middleware());
 
     app.use(favicon(path.join(__dirname, '../../public/favicon.ico')));
+    app.use(jade.middleware({
+        viewPath: path.join(__dirname, '../../views'),
+        debug: true,
+        pretty: true
+    }));
+
     app.use(mount('/static', staticRoutes));
     app.use(mount('/api', apiRoutes));
     app.use(mount('/auth', authRoutes));
-    //app.use(mount(publicRoutes));
+    app.use(mount(publicRoutes));
 }
 
 App.prototype.start = function(options) {

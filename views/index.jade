@@ -6,10 +6,15 @@ html(ng-app="app")
         link(href="/static/lib/angular-material/themes/default-theme.css" type="text/css" rel="stylesheet")
         link(href="/static/style/index.css" type="text/css" rel="stylesheet")
 
-    body(layout="horizontal")
+    body(layout="horizontal" flex)
         md-sidenav(layout="vertical" is-locked-open="$media('md')" class="md-sidenav-left md-whiteframe-z2")
-
-
+            md-toolbar()
+            md-content(layout="vertical")
+            
+        main(layout="vertical" flex)
+            md-toolbar(layout="horizontal")
+            md-content(flex ng-view)
+        
         script(src="/static/lib/lodash/dist/lodash.js")
         script(src="/static/lib/bluebird/js/browser/bluebird.js")
         script(src="/static/lib/hammerjs/hammer.js")
@@ -21,3 +26,5 @@ html(ng-app="app")
         script(src="/static/lib/angular-route/angular-route.js")
         
         script(src="/static/script/index.js")
+        script(src="/static/script/utils.js")
+        script(src="/static/script/page/home.js")

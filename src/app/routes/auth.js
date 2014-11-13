@@ -6,7 +6,7 @@ var Router = require('koa-router'),
 router.get('/google', passport.authenticate('google'));
 
 router.get('/google/return', passport.authenticate('google', {
-    successRedirect: '/',
+    successRedirect: '/#!/welcome',
     failureRedirect: '/uhoh'
 }));
 
